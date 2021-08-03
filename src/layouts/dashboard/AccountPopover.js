@@ -10,26 +10,27 @@ import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '
 // components
 import MenuPopover from '../../components/MenuPopover';
 //
-import account from '../../_mocks_/account';
+//import account from '../../_mocks_/account';
+import AuthService from "../../services/auth.service";
 
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
-  {
-    label: 'Home',
-    icon: homeFill,
-    linkTo: '/'
-  },
-  {
-    label: 'Profile',
-    icon: personFill,
-    linkTo: '#'
-  },
-  {
-    label: 'Settings',
-    icon: settings2Fill,
-    linkTo: '#'
-  }
+  // {
+  //   label: 'Home',
+  //   icon: homeFill,
+  //   linkTo: '/'
+  // },
+  // {
+  //   label: 'Profile',
+  //   icon: personFill,
+  //   linkTo: '#'
+  // },
+  // {
+  //   label: 'Settings',
+  //   icon: settings2Fill,
+  //   linkTo: '#'
+  // }
 ];
 
 // ----------------------------------------------------------------------
@@ -37,6 +38,8 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
+
+  const currentUser = AuthService.getCurrentUser();
 
   const handleOpen = () => {
     setOpen(true);
@@ -67,7 +70,7 @@ export default function AccountPopover() {
           })
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src="/static/mock-images/avatars/avatar_default.jpg" alt="photoURL" />
       </IconButton>
 
       <MenuPopover
@@ -78,10 +81,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle1" noWrap>
-            {account.displayName}
+            {currentUser.name}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {currentUser.email}
           </Typography>
         </Box>
 

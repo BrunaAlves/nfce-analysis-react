@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
+
 
 // routes
 import Router from './routes';
@@ -12,11 +12,7 @@ import ScrollToTop from './components/ScrollToTop';
 
 import AuthService from "./services/auth.service";
 
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Home from "./components/Home";
-import Profile from "./components/Profile";
-import BoardUser from "./components/BoardUser";
+
 
 const App = () => {
  // const [showModeratorBoard, setShowModeratorBoard] = useState(false);

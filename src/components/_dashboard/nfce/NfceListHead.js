@@ -2,10 +2,11 @@ import PropTypes from 'prop-types';
 // material
 import { visuallyHidden } from '@material-ui/utils';
 import { Box, Checkbox, TableRow, TableCell, TableHead, TableSortLabel } from '@material-ui/core';
+import ItemModal from '../../ItemModal';
 
 // ----------------------------------------------------------------------
 
-UserListHead.propTypes = {
+NfceListHead.propTypes = {
   order: PropTypes.oneOf(['asc', 'desc']),
   orderBy: PropTypes.string,
   rowCount: PropTypes.number,
@@ -15,7 +16,7 @@ UserListHead.propTypes = {
   onSelectAllClick: PropTypes.func
 };
 
-export default function UserListHead({
+export default function NfceListHead({
   order,
   orderBy,
   rowCount,
