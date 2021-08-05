@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query'
 import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -12,6 +16,7 @@ import ScrollToTop from './components/ScrollToTop';
 
 import AuthService from "./services/auth.service";
 
+const queryClient = new QueryClient()
 
 
 const App = () => {
@@ -35,10 +40,12 @@ const App = () => {
   };
 
   return (
-    <ThemeConfig>
-      <ScrollToTop />
-      <Router />
-    </ThemeConfig>
+    <QueryClientProvider client={queryClient}>
+      <ThemeConfig>
+        <ScrollToTop />
+        <Router />
+      </ThemeConfig>
+    </QueryClientProvider>
   //   <div>
   //     <nav className="navbar navbar-expand navbar-dark bg-dark">
   //       <Link to={"/"} className="navbar-brand">

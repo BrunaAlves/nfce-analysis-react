@@ -39,7 +39,6 @@ export default function LoginForm() {
     },
     validationSchema: LoginSchema,
     onSubmit: (e) => {
-      console.log(e.email)
       AuthService.login(e.email, e.password).then(
         () => {
           navigate('/dashboard', { replace: true });

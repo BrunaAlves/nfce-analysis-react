@@ -1,50 +1,51 @@
-import React from 'react'
-import { filter } from 'lodash';
-import { Icon } from '@iconify/react';
-import { sentenceCase } from 'change-case';
-import { useState, useEffect } from 'react';
-import plusFill from '@iconify/icons-eva/plus-fill';
-import config from '../config.json'
-import { Link as RouterLink } from 'react-router-dom';
+import React from "react";
+import { filter } from "lodash";
+import { useState} from "react";
+import config from "../config.json";
+
 // material
 import {
   Card,
   Table,
   Stack,
-  Avatar,
-  Button,
-  Checkbox,
   TableRow,
   TableBody,
   TableCell,
   Container,
   Typography,
   TableContainer,
-  TablePagination
-} from '@material-ui/core';
+  TablePagination,
+} from "@material-ui/core";
 // components
-import Page from '../components/Page';
-import Label from '../components/Label';
-import Scrollbar from '../components/Scrollbar';
-import SearchNotFound from '../components/SearchNotFound';
-import { NfceListHead, NfceListToolbar, NfceMoreMenu } from '../components/_dashboard/nfce';
+import Page from "../components/Page";
+import Label from "../components/Label";
+import Scrollbar from "../components/Scrollbar";
+import SearchNotFound from "../components/SearchNotFound";
+import {
+  NfceListHead,
+  NfceListToolbar,
+  NfceMoreMenu,
+} from "../components/_dashboard/nfce";
 
 import axios from "axios";
 import AuthService from "../services/auth.service";
 
-import ItemModal from "../components/ItemModal"
-
+import ItemModal from "../components/ItemModal";
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'issuanceDate', label: 'Data da compra', alignRight: false },
-  { id: 'socialName', label: 'Nome Social', alignRight: false },
-  { id: 'cnpj', label: 'CNPJ', alignRight: false },
-  { id: 'uf', label: 'Estado', alignRight: false },
-  { id: 'totalValueService', label: 'Valor total da compra', alignRight: false },
-  { id: 'totalItems', label: 'Total de itens', alignRight: false },
- // { id: '' }
+  { id: "issuanceDate", label: "Data da compra", alignRight: false },
+  { id: "socialName", label: "Nome Social", alignRight: false },
+  { id: "cnpj", label: "CNPJ", alignRight: false },
+  { id: "uf", label: "Estado", alignRight: false },
+  {
+    id: "totalValueService",
+    label: "Valor total da compra",
+    alignRight: false,
+  },
+  { id: "totalItems", label: "Total de itens", alignRight: false },
+  // { id: '' }
 ];
 
 // ----------------------------------------------------------------------
@@ -60,7 +61,7 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  return order === 'desc'
+  return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
@@ -73,17 +74,20 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_nfce) => _nfce.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(
+      array,
+      (_nfce) => _nfce.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    );
   }
   return stabilizedThis.map((el) => el[0]);
 }
 
 export default function Nfce() {
   const [page, setPage] = useState(0);
-  const [order, setOrder] = useState('asc');
+  const [order, setOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('name');
-  const [filterName, setFilterName] = useState('');
+  const [orderBy, setOrderBy] = useState("name");
+  const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const [isItemModalOpen, setIsItemModalOpen] = useState(false);
@@ -94,31 +98,31 @@ export default function Nfce() {
 
   const [nfceList, setNfceList] = React.useState([]);
 
-  if(nfceList.length == 0)
-  {
-    axios.get(`${baseUrl}/nfces/user/${currentUser.id}`, { headers: {"Authorization" : `Bearer ${currentUser.token}`} })
-          .then(function (response) {
-            console.log(response.data);
-            setNfceList(response.data);
-            // handle success
-            
-          })
-          .catch(function (error) {
-            // handle error
-            console.log(error);
-            return []
-          });
-        }
+  if (nfceList.length == 0) {
+    axios
+      .get(`${baseUrl}/nfces/user/${currentUser.id}`, {
+        headers: { Authorization: `Bearer ${currentUser.token}` },
+      })
+      .then(function (response) {
+        setNfceList(response.data);
+        // handle success
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+        return [];
+      });
+  }
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = nfceList;//.map((n) => n.name);
+      const newSelecteds = nfceList; //.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -156,21 +160,36 @@ export default function Nfce() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - nfceList.length) : 0;
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - nfceList.length) : 0;
 
-  const filteredNfces = applySortFilter(nfceList, getComparator(order, orderBy), filterName);
+  const filteredNfces = applySortFilter(
+    nfceList,
+    getComparator(order, orderBy),
+    filterName
+  );
 
   const isNfceNotFound = filteredNfces.length === 0;
 
-  function handleOpenItem(row){
+  function handleOpenItem(row) {
     setItemModalPayload(row);
     setIsItemModalOpen(true);
+  }
+
+  function handleCloseItemModal() {
+    setItemModalPayload(null);
+    setIsItemModalOpen(false);
   }
 
   return (
     <Page title="Nfce | Minimal-UI">
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          mb={5}
+        >
           <Typography variant="h4" gutterBottom>
             Nfce
           </Typography>
@@ -207,26 +226,24 @@ export default function Nfce() {
                   {filteredNfces
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { id, issuanceDate, socialName, cnpj, uf, totalItems, totalValueService } = row;
-                      const isItemSelected = selected.indexOf(id) !== -1;
+                      const {
+                        issuanceDate,
+                        socialName,
+                        cnpj,
+                        uf,
+                        totalItems,
+                        totalValueService,
+                      } = row;
 
                       return (
-                        <TableRow
-                          hover
-                          key={id}
-                          tabIndex={-1}
-                          role="checkbox"
-                          selected={isItemSelected}
-                          aria-checked={isItemSelected}
-                        >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              checked={isItemSelected}
-                              onChange={(event) => handleClick(event, id)}
-                            />
-                          </TableCell>
+                        <TableRow hover key={row._id}>
+                          <TableCell></TableCell>
                           <TableCell component="th" scope="row" padding="none">
-                            <Stack direction="row" alignItems="center" spacing={2}>
+                            <Stack
+                              direction="row"
+                              alignItems="center"
+                              spacing={2}
+                            >
                               <Typography variant="subtitle2" noWrap>
                                 {issuanceDate}
                               </Typography>
@@ -236,10 +253,14 @@ export default function Nfce() {
                           <TableCell align="left">{cnpj}</TableCell>
                           <TableCell align="left">{uf}</TableCell>
                           <TableCell align="left">{totalItems}</TableCell>
-                          <TableCell align="left">{totalValueService}</TableCell>
+                          <TableCell align="left">
+                            {totalValueService}
+                          </TableCell>
 
                           <TableCell align="right">
-                            <NfceMoreMenu onOpenItem={() => handleOpenItem(row)}/>
+                            <NfceMoreMenu
+                              onOpenItem={() => handleOpenItem(row)}
+                            />
                           </TableCell>
                         </TableRow>
                       );
@@ -273,9 +294,10 @@ export default function Nfce() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
 
-          <ItemModal 
+          <ItemModal
             open={isItemModalOpen}
             payload={itemModalPayload}
+            onClose={() => handleCloseItemModal()}
           />
         </Card>
       </Container>
