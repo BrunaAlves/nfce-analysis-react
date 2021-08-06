@@ -12,38 +12,13 @@ import {
 } from '@material-ui/lab';
 // utils
 import { fDateTime } from '../../../utils/formatTime';
+import config from "../../../config.json";
+import axios from "axios";
+import AuthService from "../../../services/auth.service";
+import { useQuery } from 'react-query';
 
 // ----------------------------------------------------------------------
 
-const TIMELINES = [
-  {
-    title: '1983, orders, $4220',
-    time: faker.date.past(),
-    type: 'order1'
-  },
-  {
-    title: '12 Invoices have been paid',
-    time: faker.date.past(),
-    type: 'order2'
-  },
-  {
-    title: 'Order #37745 from September',
-    time: faker.date.past(),
-    type: 'order3'
-  },
-  {
-    title: 'New order placed #XF-2356',
-    time: faker.date.past(),
-    type: 'order4'
-  },
-  {
-    title: 'New order placed #XF-2346',
-    time: faker.date.past(),
-    type: 'order5'
-  }
-];
-
-// ----------------------------------------------------------------------
 
 OrderItem.propTypes = {
   item: PropTypes.object,
@@ -58,9 +33,9 @@ function OrderItem({ item, isLast }) {
         <TimelineDot
           sx={{
             bgcolor:
-              (type === 'order1' && 'primary.main') ||
-              (type === 'order2' && 'success.main') ||
-              (type === 'order3' && 'info.main') ||
+              (type === 'Dinheiro' && 'primary.main') ||
+              (type === 'Cartão de Crédito' && 'success.main') ||
+              (type === 'Outros' && 'info.main') ||
               (type === 'order4' && 'warning.main') ||
               'error.main'
           }}
@@ -78,6 +53,21 @@ function OrderItem({ item, isLast }) {
 }
 
 export default function AppOrderTimeline() {
+  const baseUrl = config.apiBaseUrl;
+  const currentUser = AuthService.getCurrentUser();
+
+  const { 
+    isLoading: list_isLoading,
+    error: list_error,
+    data: list_data ,
+    refetch: list_refetch
+  } = useQuery('Timeline', () => {
+        return axios.get(`${baseUrl}/dashboard/timeline?userId=${currentUser.id}`, {
+            headers: { Authorization: `Bearer ${currentUser.token}` },
+          }).then((r) => r.data);
+        }
+  )
+
   return (
     <Card
       sx={{
@@ -89,8 +79,9 @@ export default function AppOrderTimeline() {
       <CardHeader title="Order Timeline" />
       <CardContent>
         <Timeline>
-          {TIMELINES.map((item, index) => (
-            <OrderItem key={item.title} item={item} isLast={index === TIMELINES.length - 1} />
+          {!list_isLoading && list_data != null &&  
+            list_data.map((item, index) => (
+              <OrderItem key={item.title} item={item} isLast={index === list_data.length - 1} />
           ))}
         </Timeline>
       </CardContent>
