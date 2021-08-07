@@ -49,9 +49,9 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-export default function BaseOptionChart() {
+export default function BaseOptionChart(parentTheme) {
   useStyles();
-  const theme = useTheme();
+  var theme = useTheme();  
 
   const LABEL_TOTAL = {
     show: true,

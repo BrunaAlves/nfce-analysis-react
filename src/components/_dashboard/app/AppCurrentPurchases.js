@@ -8,6 +8,11 @@ import { fNumber } from '../../../utils/formatNumber';
 //
 import { BaseOptionChart } from '../../charts';
 
+import config from "../../../config.json";
+import axios from "axios";
+import AuthService from "../../../services/auth.service";
+import { useQuery } from 'react-query';
+
 // ----------------------------------------------------------------------
 
 const CHART_HEIGHT = 372;
@@ -33,17 +38,32 @@ const ChartWrapperStyle = styled('div')(({ theme }) => ({
 
 const CHART_DATA = [4344, 5435, 1443, 4443];
 
-export default function AppCurrentVisits() {
-  const theme = useTheme();
+export default function AppCurrentPurchases() {
 
-  const chartOptions = merge(BaseOptionChart(), {
+  const baseUrl = config.apiBaseUrl;
+  const currentUser = AuthService.getCurrentUser();
+
+  const { 
+    isLoading: list_isLoading,
+    error: list_error,
+    data: list_data ,
+    refetch: list_refetch
+  } = useQuery('Pie', () => {
+        return axios.get(`${baseUrl}/dashboard/piechart?userId=${currentUser.id}`, {
+            headers: { Authorization: `Bearer ${currentUser.token}` },
+          }).then((r) => r.data);
+        }
+  )
+
+  const theme = useTheme();
+  var chartOptions = chartOptions = merge(BaseOptionChart(), {
     colors: [
       theme.palette.primary.main,
       theme.palette.info.main,
       theme.palette.warning.main,
       theme.palette.error.main
     ],
-    labels: ['America', 'Asia', 'Europe', 'Africa'],
+    labels: list_data ? list_data.label : [],
     stroke: { colors: [theme.palette.background.paper] },
     legend: { floating: true, horizontalAlign: 'center' },
     dataLabels: { enabled: true, dropShadow: { enabled: false } },
@@ -60,12 +80,13 @@ export default function AppCurrentVisits() {
       pie: { donut: { labels: { show: false } } }
     }
   });
-
+  
   return (
     <Card>
-      <CardHeader title="Current Visits" />
+      <CardHeader title="Porcentagem de compras por local" />
       <ChartWrapperStyle dir="ltr">
-        <ReactApexChart type="pie" series={CHART_DATA} options={chartOptions} height={280} />
+      {!list_isLoading && list_data != null && 
+        <ReactApexChart type="pie" series={list_data.series} options={chartOptions} height={280} />}
       </ChartWrapperStyle>
     </Card>
   );
