@@ -1,10 +1,15 @@
 import { Icon } from '@iconify/react';
-import androidFilled from '@iconify/icons-ant-design/android-filled';
+import scheduleFilled from '@iconify/icons-ant-design/schedule-outlined';
 // material
 import { alpha, styled } from '@material-ui/core/styles';
 import { Card, Typography } from '@material-ui/core';
 // utils
 import { fShortenNumber } from '../../../utils/formatNumber';
+
+import config from "../../../config.json";
+import axios from "axios";
+import AuthService from "../../../services/auth.service";
+import { useQuery } from 'react-query';
 
 // ----------------------------------------------------------------------
 
@@ -34,17 +39,32 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-const TOTAL = 714000;
+//const TOTAL = 714000;
 
-export default function AppWeeklySales() {
+export default function AppTotalSpentCurrentMonth() {
+  const baseUrl = config.apiBaseUrl;
+  const currentUser = AuthService.getCurrentUser();
+
+  const { 
+    isLoading: list_isLoading,
+    error: list_error,
+    data: total_value ,
+    refetch: list_refetch
+  } = useQuery('CurrentMonth', () => {
+        return axios.get(`${baseUrl}/dashboard/totalcurrentmonth?userId=${currentUser.id}`, {
+            headers: { Authorization: `Bearer ${currentUser.token}` },
+          }).then((r) => r.data);
+        }
+  )
+
   return (
     <RootStyle>
       <IconWrapperStyle>
-        <Icon icon={androidFilled} width={24} height={24} />
+        <Icon icon={scheduleFilled} width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
+      <Typography variant="h3">{fShortenNumber(total_value)}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Weekly Sales
+        Total gasto no mês
       </Typography>
     </RootStyle>
   );

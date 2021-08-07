@@ -1,10 +1,15 @@
 import { Icon } from '@iconify/react';
-import windowsFilled from '@iconify/icons-ant-design/windows-filled';
+import carryOutOutlined from '@iconify/icons-ant-design/carry-out-outlined';
 // material
 import { alpha, styled } from '@material-ui/core/styles';
 import { Card, Typography } from '@material-ui/core';
 // utils
 import { fShortenNumber } from '../../../utils/formatNumber';
+
+import config from "../../../config.json";
+import axios from "axios";
+import AuthService from "../../../services/auth.service";
+import { useQuery } from 'react-query';
 
 // ----------------------------------------------------------------------
 
@@ -34,17 +39,32 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-const TOTAL = 1723315;
+//const TOTAL = 1723315;
 
-export default function AppItemOrders() {
+export default function AppTotalSpentCurrentYear() {
+  const baseUrl = config.apiBaseUrl;
+  const currentUser = AuthService.getCurrentUser();
+
+  const { 
+    isLoading: list_isLoading,
+    error: list_error,
+    data: total_value ,
+    refetch: list_refetch
+  } = useQuery('CurrentYear', () => {
+        return axios.get(`${baseUrl}/dashboard/totalcurrentyear?userId=${currentUser.id}`, {
+            headers: { Authorization: `Bearer ${currentUser.token}` },
+          }).then((r) => r.data);
+        }
+  )
+
   return (
     <RootStyle>
       <IconWrapperStyle>
-        <Icon icon={windowsFilled} width={24} height={24} />
+        <Icon icon={carryOutOutlined} width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
+      <Typography variant="h3">{fShortenNumber(total_value)}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Item Orders
+      Total gasto no ano
       </Typography>
     </RootStyle>
   );

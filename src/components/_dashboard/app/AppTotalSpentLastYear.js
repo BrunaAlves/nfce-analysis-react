@@ -1,10 +1,15 @@
 import { Icon } from '@iconify/react';
-import bugFilled from '@iconify/icons-ant-design/bug-filled';
+import carryOutFilled from '@iconify/icons-ant-design/carry-out-filled';
 // material
 import { alpha, styled } from '@material-ui/core/styles';
 import { Card, Typography } from '@material-ui/core';
 // utils
 import { fShortenNumber } from '../../../utils/formatNumber';
+
+import config from "../../../config.json";
+import axios from "axios";
+import AuthService from "../../../services/auth.service";
+import { useQuery } from 'react-query';
 
 // ----------------------------------------------------------------------
 
@@ -34,17 +39,32 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-const TOTAL = 234;
+//const TOTAL = 234;
 
-export default function AppBugReports() {
+export default function AppTotalSpentLastYear() {
+  const baseUrl = config.apiBaseUrl;
+  const currentUser = AuthService.getCurrentUser();
+
+  const { 
+    isLoading: list_isLoading,
+    error: list_error,
+    data: total_value ,
+    refetch: list_refetch
+  } = useQuery('LastYear', () => {
+        return axios.get(`${baseUrl}/dashboard/totallastyear?userId=${currentUser.id}`, {
+            headers: { Authorization: `Bearer ${currentUser.token}` },
+          }).then((r) => r.data);
+        }
+  )
+
   return (
     <RootStyle>
       <IconWrapperStyle>
-        <Icon icon={bugFilled} width={24} height={24} />
+        <Icon icon={carryOutFilled} width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
+      <Typography variant="h3">{fShortenNumber(total_value)}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Bug Reports
+        Total gasto no último ano
       </Typography>
     </RootStyle>
   );
