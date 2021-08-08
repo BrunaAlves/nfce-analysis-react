@@ -11,7 +11,7 @@ import {
   AppTotalSpentCurrentMonth,
   AppOrderTimeline,
   AppCurrentPurchases,
-  AppWebsiteVisits,
+  AppIcmsInfoGraph,
   AppTrafficBySite,
   AppCurrentSubject,
   AppValuesPerMonth
@@ -42,7 +42,7 @@ export default function DashboardApp() {
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>
-            <AppWebsiteVisits />
+            <AppIcmsInfoGraph />
           </Grid>
 
           <Grid item xs={12} md={6} lg={4}>
