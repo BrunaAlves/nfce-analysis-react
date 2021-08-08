@@ -1,5 +1,5 @@
 export { default as AppTotalSpentLastYear } from './AppTotalSpentLastYear';
-export { default as AppConversionRates } from './AppConversionRates';
+export { default as AppValuesPerMonth } from './AppValuesPerMonth';
 export { default as AppCurrentSubject } from './AppCurrentSubject';
 export { default as AppCurrentPurchases } from './AppCurrentPurchases';
 export { default as TotalSpentCurrentYear } from './AppTotalSpentCurrentYear';
