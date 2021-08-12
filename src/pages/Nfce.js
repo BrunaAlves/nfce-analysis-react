@@ -30,7 +30,7 @@ import {
 import axios from "axios";
 import AuthService from "../services/auth.service";
 
-import ItemModal from "../components/ItemModal";
+import ItemDialog from "../components/_dashboard/nfce/ItemDialog";
 
 // ----------------------------------------------------------------------
 
@@ -90,8 +90,8 @@ export default function Nfce() {
   const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const [isItemModalOpen, setIsItemModalOpen] = useState(false);
-  const [itemModalPayload, setItemModalPayload] = useState(null);
+  const [isItemDialogOpen, setIsItemDialogOpen] = useState(false);
+  const [itemDialogPayload, setItemDialogPayload] = useState(null);
 
   const baseUrl = config.apiBaseUrl;
   const currentUser = AuthService.getCurrentUser();
@@ -172,13 +172,13 @@ export default function Nfce() {
   const isNfceNotFound = filteredNfces.length === 0;
 
   function handleOpenItem(row) {
-    setItemModalPayload(row);
-    setIsItemModalOpen(true);
+    setItemDialogPayload(row);
+    setIsItemDialogOpen(true);
   }
 
-  function handleCloseItemModal() {
-    setItemModalPayload(null);
-    setIsItemModalOpen(false);
+  function handleCloseItemDialog() {
+    setItemDialogPayload(null);
+    setIsItemDialogOpen(false);
   }
 
   return (
@@ -294,10 +294,10 @@ export default function Nfce() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
 
-          <ItemModal
-            open={isItemModalOpen}
-            payload={itemModalPayload}
-            onClose={() => handleCloseItemModal()}
+          <ItemDialog
+            open={isItemDialogOpen}
+            payload={itemDialogPayload}
+            onClose={() => handleCloseItemDialog()}
           />
         </Card>
       </Container>
