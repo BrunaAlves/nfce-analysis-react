@@ -38,7 +38,7 @@ const ChartWrapperStyle = styled('div')(({ theme }) => ({
 
 const CHART_DATA = [4344, 5435, 1443, 4443];
 
-export default function AppCurrentPurchases() {
+export default function AppPurchasesPerCategory() {
 
   const baseUrl = config.apiBaseUrl;
   const currentUser = AuthService.getCurrentUser();
@@ -48,8 +48,8 @@ export default function AppCurrentPurchases() {
     error: list_error,
     data: list_data ,
     refetch: list_refetch
-  } = useQuery('Pie', () => {
-        return axios.get(`${baseUrl}/dashboard/piechart/perlocation?userId=${currentUser.id}`, {
+  } = useQuery('PieCategory', () => {
+        return axios.get(`${baseUrl}/dashboard/piechart/category?userId=${currentUser.id}`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
         }
@@ -83,7 +83,7 @@ export default function AppCurrentPurchases() {
   
   return (
     <Card>
-      <CardHeader title="Porcentagem de compras por local" />
+      <CardHeader title="Porcentagem de compras por categoria" />
       <ChartWrapperStyle dir="ltr">
       {!list_isLoading && list_data != null && 
         <ReactApexChart type="pie" series={list_data.series} options={chartOptions} height={280} />}

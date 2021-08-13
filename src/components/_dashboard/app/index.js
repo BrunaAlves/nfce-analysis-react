@@ -2,6 +2,7 @@ export { default as AppTotalSpentLastYear } from './AppTotalSpentLastYear';
 export { default as AppValuesPerMonth } from './AppValuesPerMonth';
 export { default as AppCurrentSubject } from './AppCurrentSubject';
 export { default as AppCurrentPurchases } from './AppCurrentPurchases';
+export { default as AppPurchasesPerCategory } from './AppPurchasesPerCategory';
 export { default as TotalSpentCurrentYear } from './AppTotalSpentCurrentYear';
 export { default as AppNewsUpdate } from './AppNewsUpdate';
 export { default as AppTotalSpentLastMonth } from './AppTotalSpentLastMonth';
