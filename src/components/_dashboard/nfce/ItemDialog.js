@@ -1,8 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import config from "../config.json";
+import config from "../../../config.json";
 import axios from "axios";
-import AuthService from "../services/auth.service";
+import AuthService from "../../../services/auth.service";
 import { filter } from "lodash";
 import { useState, useEffect } from "react";
 import { useQuery } from 'react-query'
@@ -27,12 +27,14 @@ import {
   Button,
 } from "@material-ui/core";
 // components
-import Scrollbar from "../components/Scrollbar";
-import SearchNotFound from "../components/SearchNotFound";
+import Scrollbar from "../../Scrollbar";
+import SearchNotFound from "../../SearchNotFound";
 import {
   NfceListHead,
-  NfceMoreMenu,
-} from "../components/_dashboard/nfce";
+  NfceMoreMenu
+} from ".";
+import ItemMoreMenu from "./ItemMoreMenu";
+import CategoryDialog from "./CategoryDialog";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,6 +54,7 @@ const TABLE_HEAD = [
   { id: "qtdItem", label: "Quantidade", alignRight: false },
   { id: "unItem", label: "Unidade", alignRight: false },
   { id: "itemValue", label: "Valor do item", alignRight: false },
+  { id: "category.name", label: "Categoria", alignRight: false },
 ];
 
 // ----------------------------------------------------------------------
@@ -88,7 +91,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function ItemModal(props) {
+export default function ItemDialog(props) {
   const classes = useStyles();
 
   const [page, setPage] = useState(0);
@@ -97,6 +100,9 @@ export default function ItemModal(props) {
   const [orderBy, setOrderBy] = useState("name");
   const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [categoryModalPayload, setCategoryModalPayload] = useState(null);
 
   const baseUrl = config.apiBaseUrl;
   const currentUser = AuthService.getCurrentUser();
@@ -118,6 +124,15 @@ export default function ItemModal(props) {
     }
   )
   
+  function handleOpenCategory(row) {
+    setCategoryModalPayload(row);
+    setIsCategoryModalOpen(true);
+  }
+
+  function handleCloseCategoryModal() {
+    setCategoryModalPayload(null);
+    setIsCategoryModalOpen(false);
+  }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -172,7 +187,7 @@ export default function ItemModal(props) {
   var filteredNfces = [];
   if(list_data != null)
   {
-    console.info(list_data)
+   // console.info(list_data)
     filteredNfces = applySortFilter(
       list_data,
       getComparator(order, orderBy),
@@ -226,7 +241,7 @@ export default function ItemModal(props) {
                         page * rowsPerPage + rowsPerPage
                       )
                       .map((row) => {
-                        const { itemName, qtdItem, unItem, itemValue } =
+                        const { itemName, qtdItem, unItem, itemValue, category } =
                           row;
                        
 
@@ -242,6 +257,13 @@ export default function ItemModal(props) {
                             <TableCell align="left">{qtdItem}</TableCell>
                             <TableCell align="left">{unItem}</TableCell>
                             <TableCell align="left">{itemValue}</TableCell>
+                            <TableCell align="left">{category && category.name }</TableCell>
+
+                            <TableCell align="right">
+                            <ItemMoreMenu
+                              onOpenCategory={() => handleOpenCategory(row)}
+                            />
+                          </TableCell>
 
                            
                           </TableRow>
@@ -275,6 +297,11 @@ export default function ItemModal(props) {
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           {/* </Card> */}
+          <CategoryDialog
+            open={isCategoryModalOpen}
+            payload={categoryModalPayload}
+            onClose={() => handleCloseCategoryModal()}
+          />
     
       </DialogContent>
       <DialogActions>
