@@ -54,7 +54,7 @@ const TABLE_HEAD = [
   { id: "qtdItem", label: "Quantidade", alignRight: false },
   { id: "unItem", label: "Unidade", alignRight: false },
   { id: "itemValue", label: "Valor do item", alignRight: false },
-  { id: "category", label: "Categoria", alignRight: false },
+  { id: "category.name", label: "Categoria", alignRight: false },
 ];
 
 // ----------------------------------------------------------------------
@@ -257,7 +257,7 @@ export default function ItemDialog(props) {
                             <TableCell align="left">{qtdItem}</TableCell>
                             <TableCell align="left">{unItem}</TableCell>
                             <TableCell align="left">{itemValue}</TableCell>
-                            <TableCell align="left">{category}</TableCell>
+                            <TableCell align="left">{category && category.name }</TableCell>
 
                             <TableCell align="right">
                             <ItemMoreMenu

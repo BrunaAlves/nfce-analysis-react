@@ -14,7 +14,7 @@ import Select from '@material-ui/core/Select';
 import config from "../../../config.json";
 import axios from "axios";
 import AuthService from "../../../services/auth.service";
-import { useQuery } from 'react-query'
+import { useQuery, useMutation } from 'react-query'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -30,10 +30,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CategoryDialog(props) {
   const classes = useStyles();
-  const [age, setAge] = React.useState('');
+  const [category, setCategory] = React.useState('');
 
   const handleChange = (event) => {
-    setAge(Number(event.target.value) || '');
+    setCategory(event.target.value || '');
   };
   
   const handleClose = () => {
@@ -46,9 +46,9 @@ export default function CategoryDialog(props) {
   const { 
     isLoading: list_isLoading,
     error: list_error,
-    data: list_categorie ,
+    data: list_category ,
     refetch: list_refetch
-  } = useQuery(['Categoria', props.payload], (key) => {
+  } = useQuery(['Categories', props.payload], (key) => {
     let data = key.queryKey[1];
       if(data)
         return axios.get(`${baseUrl}/categories/all`, {
@@ -56,6 +56,30 @@ export default function CategoryDialog(props) {
           }).then((r) => r.data);
     }
   )
+
+  const patchByItemCode = () => {  
+    let currentCategory = list_category.find(x => x.id === category);
+    let currentItem = props.payload;
+    currentItem.category = currentCategory;
+
+    axios.post(`${baseUrl}/items/byitemcode`, currentItem, {
+      headers: { Authorization: `Bearer ${currentUser.token}` }
+    });
+
+    handleClose();
+  };
+
+  const patchByItem = (event) => {
+    let currentCategory = list_category.find(x => x.id === category);
+    let currentItem = props.payload;
+    currentItem.category = currentCategory;
+
+    axios.post(`${baseUrl}/items`, currentItem, {
+      headers: { Authorization: `Bearer ${currentUser.token}` }
+    });
+
+    handleClose();
+  };
 
   return (
       <Dialog
@@ -71,39 +95,30 @@ export default function CategoryDialog(props) {
       >
          <DialogTitle>Selecione a categoria</DialogTitle>
         <DialogContent>
-        
-            
             <FormControl className={classes.formControl}>
               <InputLabel id="demo-dialog-select-label">Categoria</InputLabel>
               <Select
                 labelId="demo-dialog-select-label"
                 id="demo-dialog-select"
-                value={age}
+                value={category}
                 onChange={handleChange}
                 input={<Input />}
               >
-                {list_categorie &&
-                  list_categorie.map(el => 
-                    <MenuItem value={el.name}>{el.name}</MenuItem>
+                {list_category &&
+                  list_category.map(el => 
+                    <MenuItem key={el.id} value={el.id}>{el.name}</MenuItem>
                   )
 
                 }
-                
-                {/* <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>Tedasdsadan</MenuItem>
-                <MenuItem value={20}>TwedasdasdasntyTwedasdasdasnty</MenuItem>
-                <MenuItem value={30}>Thirdasdadaty</MenuItem> */}
               </Select>
             </FormControl>
           
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={patchByItemCode} color="primary">
             Categorizar itens relacionados
           </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
+          <Button onClick={patchByItem} color="primary" autoFocus>
             Categorizar este item
           </Button>
           <Button onClick={handleClose} color="primary" autoFocus>
