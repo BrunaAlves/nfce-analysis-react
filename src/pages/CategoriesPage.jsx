@@ -1,14 +1,8 @@
-// material
 import { Box, Grid, Container, Typography } from "@material-ui/core";
-// components
 import Page from "../components/Page";
 import { AppOrderTimeline, AppNewsUpdate } from "../components/_dashboard/app";
 
-import ItemDialog from "../components/_dashboard/nfce/ItemDialog";
-
-// ----------------------------------------------------------------------
-
-export default function DashboardApp() {
+export default function CaregoriesPage() {
   return (
     <Page title="Items | Minimal-UI">
       <Container maxWidth="xl">

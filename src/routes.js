@@ -3,12 +3,13 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
-import Login from './pages/Login';
-import Register from './pages/Register';
-import DashboardApp from './pages/DashboardApp';
-import Nfce from './pages/Nfce';
-import Item from './pages/Item';
-import NotFound from './pages/Page404';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import DashboardPage from './pages/DashboardPage';
+import NfcePage from './pages/NfcePage';
+import ItemsPage from './pages/ItemsPage';
+import NotFoundPage from './pages/404Page';
+import CategoriesPage from './pages/CategoriesPage'
 
 // ----------------------------------------------------------------------
 
@@ -19,18 +20,19 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         { path: '/', element: <Navigate to="/dashboard/app" replace /> },
-        { path: 'app', element: <DashboardApp /> },
-        { path: 'nfce', element: <Nfce /> },
-        { path: 'item', element: <Item /> }
+        { path: 'app', element: <DashboardPage /> },
+        { path: 'nfce', element: <NfcePage /> },
+        { path: 'item', element: <ItemsPage /> },
+        { path: 'categories', element: <CategoriesPage /> }
       ]
     },
     {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
-        { path: 'login', element: <Login /> },
-        { path: 'register', element: <Register /> },
-        { path: '404', element: <NotFound /> },
+        { path: 'login', element: <LoginPage /> },
+        { path: 'register', element: <RegisterPage /> },
+        { path: '404', element: <NotFoundPage /> },
         { path: '/', element: <Navigate to="/dashboard" /> },
         { path: '*', element: <Navigate to="/404" /> }
       ]

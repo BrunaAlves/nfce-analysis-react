@@ -24,7 +24,7 @@ const sidebarConfig = [
   },
   {
     title: 'Categorias',
-    path: '/dashboard/item',
+    path: '/dashboard/categories',
     icon: getIcon(fileTextFill)
   }
 ];

@@ -18,7 +18,7 @@ import {
   AppValuesPerMonth
 } from '../components/_dashboard/app';
 
-export default function DashboardApp() {
+export default function DashboardPage() {
 
   return (
     <Page title="Dashboard | Minimal-UI">

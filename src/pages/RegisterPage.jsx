@@ -39,7 +39,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function Register() {
+export default function RegisterPage() {
   return (
     <RootStyle title="Register | Minimal-UI">
       <AuthLayout>

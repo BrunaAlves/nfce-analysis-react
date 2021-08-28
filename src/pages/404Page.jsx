@@ -19,7 +19,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function Page404() {
+export default function NotFoundPage() {
   return (
     <RootStyle title="404 Page Not Found | Minimal-UI">
       <Container>
