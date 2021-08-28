@@ -2,7 +2,7 @@ import { merge } from 'lodash';
 import ReactApexChart from 'react-apexcharts';
 // material
 import { useTheme, styled } from '@material-ui/core/styles';
-import { Card, CardHeader } from '@material-ui/core';
+import { Card, CardHeader, Box, CircularProgress } from '@material-ui/core';
 // utils
 import { fNumber } from '../../../utils/formatNumber';
 //
@@ -12,6 +12,9 @@ import config from "../../../config.json";
 import axios from "axios";
 import AuthService from "../../../services/auth.service";
 import { useQuery } from 'react-query';
+import ChartHeader from './ChartHeader.jsx';
+import { useState } from 'react';
+import ChartLoader from './ChartLoader';
 
 // ----------------------------------------------------------------------
 
@@ -36,27 +39,28 @@ const ChartWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-const CHART_DATA = [4344, 5435, 1443, 4443];
-
 export default function AppCurrentPurchases() {
 
   const baseUrl = config.apiBaseUrl;
   const currentUser = AuthService.getCurrentUser();
+  const [filterYear, setFilterYear] = useState((new Date()).getFullYear());
+  const [filterMonth, setFilterMonth] = useState(0);
+  const [filterDay, setFilterDay] = useState(0);
 
   const { 
     isLoading: list_isLoading,
     error: list_error,
     data: list_data ,
     refetch: list_refetch
-  } = useQuery('Pie', () => {
-        return axios.get(`${baseUrl}/dashboard/piechart/perlocation?userId=${currentUser.id}&year=2021`, {
+  } = useQuery(['Pie', filterYear, filterMonth, filterDay], (args) => {
+        return axios.get(`${baseUrl}/dashboard/piechart/perlocation?userId=${currentUser.id}&year=${args.queryKey[1]}&month=${args.queryKey[2]}&day=${args.queryKey[3]}`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
         }
   )
 
   const theme = useTheme();
-  var chartOptions = chartOptions = merge(BaseOptionChart(), {
+  var chartOptions = merge(BaseOptionChart(), {
     colors: [
       theme.palette.primary.main,
       theme.palette.info.main,
@@ -80,13 +84,46 @@ export default function AppCurrentPurchases() {
       pie: { donut: { labels: { show: false } } }
     }
   });
+
+  const handleChangeYear = (value) => {
+    setFilterYear(value);
+    list_refetch();
+  }
+
+  const handleChangeMonth = (value) => {
+    setFilterMonth(value)
+    list_refetch();
+  }
+
+  const handleChangeDay = (value) => {
+    setFilterDay(value)
+    list_refetch();
+  }
+
+  const renderHeader = () => {
+    return (<ChartHeader 
+      year={filterYear}
+      month={filterMonth}
+      day={filterDay}
+      title="Porcentagem de compras por local em" 
+      onChangeYear={handleChangeYear}
+      onChangeMonth={handleChangeMonth}
+      onChangeDay={handleChangeDay}
+    />)
+  }
   
   return (
     <Card>
-      <CardHeader title="Porcentagem de compras por local" />
+      <CardHeader title={renderHeader()} />
       <ChartWrapperStyle dir="ltr">
-      {!list_isLoading && list_data != null && 
-        <ReactApexChart type="pie" series={list_data.series} options={chartOptions} height={280} />}
+        <ChartLoader 
+          loading={list_isLoading}
+          error={list_error}
+          data={list_data}
+          dataAddress={"series"}
+        > 
+          <ReactApexChart type="pie" series={list_data ? list_data.series : []} options={chartOptions} height={280} />
+        </ChartLoader>
       </ChartWrapperStyle>
     </Card>
   );

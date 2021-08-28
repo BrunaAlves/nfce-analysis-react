@@ -18,8 +18,6 @@ import {
   AppValuesPerMonth
 } from '../components/_dashboard/app';
 
-// ----------------------------------------------------------------------
-
 export default function DashboardApp() {
 
   return (
@@ -58,10 +56,6 @@ export default function DashboardApp() {
             <AppPurchasesPerCategory />
           </Grid>
 
-          {/* <Grid item xs={12} md={6} lg={4}>
-            <AppCurrentSubject />
-          </Grid> */}
-
           <Grid item xs={12} md={6} lg={8}>
             <AppNewsUpdate />
           </Grid>
@@ -70,13 +64,6 @@ export default function DashboardApp() {
             <AppOrderTimeline />
           </Grid>
 
-          {/* <Grid item xs={12} md={6} lg={4}>
-            <AppTrafficBySite />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={8}>
-            <AppTasks />
-          </Grid> */}
         </Grid>
       </Container>
     </Page>

@@ -11,22 +11,24 @@ import config from "../../../config.json";
 import axios from "axios";
 import AuthService from "../../../services/auth.service";
 import { useQuery } from 'react-query';
+import ChartHeader from './ChartHeader';
+import ChartLoader from './ChartLoader';
+import {useState} from 'react';
 
 // ----------------------------------------------------------------------
-
-//const CHART_DATA = [{ data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380] }];
 
 export default function AppValuesPerMonth() {
   const baseUrl = config.apiBaseUrl;
   const currentUser = AuthService.getCurrentUser();
+  const [filterYear, setFilterYear] = useState((new Date()).getFullYear());
 
   const { 
     isLoading: list_isLoading,
     error: list_error,
     data: list_data ,
     refetch: list_refetch
-  } = useQuery('Bar', () => {
-        return axios.get(`${baseUrl}/dashboard/valuespermonths?userId=${currentUser.id}&year=2021`, {
+  } = useQuery(['Bar', filterYear], (args) => {
+        return axios.get(`${baseUrl}/dashboard/valuespermonths?userId=${currentUser.id}&year=${args.queryKey[1]}`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
         }
@@ -50,12 +52,33 @@ export default function AppValuesPerMonth() {
     }
   });
 
+  const handleChangeYear = (value) => {
+    setFilterYear(value);
+    list_refetch();
+  }
+
+  const renderHeader = () => {
+    return (<ChartHeader 
+      year={filterYear}
+      title="Valor gasto por mês em" 
+      onChangeYear={handleChangeYear}
+      showMonth={false}
+      showDay={false}
+    />)
+  }
+
   return (
     <Card>
-      <CardHeader title="Valor gasto por mês" subheader="" />
+      <CardHeader title={renderHeader()} subheader="" />
       <Box sx={{ mx: 3 }} dir="ltr">
-      {!list_isLoading && list_data != null && 
-        <ReactApexChart type="bar" series={[{ data: list_data.series }]} options={chartOptions} height={364} />}
+        <ChartLoader 
+            loading={list_isLoading}
+            error={list_error}
+            data={list_data}
+            dataAddress={"series"}
+          > 
+          <ReactApexChart type="bar" series={[{ data: list_data ? list_data.series : [] }]} options={chartOptions} height={364} />
+        </ChartLoader>
       </Box>
     </Card>
   );

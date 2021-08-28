@@ -9,22 +9,24 @@ import config from "../../../config.json";
 import axios from "axios";
 import AuthService from "../../../services/auth.service";
 import { useQuery } from 'react-query';
+import ChartLoader from './ChartLoader';
+import ChartHeader from './ChartHeader';
+import { useState } from 'react';
 
 // ----------------------------------------------------------------------
-
-
 
 export default function AppIcmsInfoGraph() {
   const baseUrl = config.apiBaseUrl;
   const currentUser = AuthService.getCurrentUser();
+  const [filterYear, setFilterYear] = useState((new Date()).getFullYear());
 
   const { 
     isLoading: list_isLoading,
     error: list_error,
     data: list_data ,
     refetch: list_refetch
-  } = useQuery('Icms', () => {
-        return axios.get(`${baseUrl}/dashboard/icms?userId=${currentUser.id}&year=2021`, {
+  } = useQuery(['Icms', filterYear], (args) => {
+        return axios.get(`${baseUrl}/dashboard/icms?userId=${currentUser.id}&year=${args.queryKey[1]}`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
         }
@@ -50,12 +52,33 @@ export default function AppIcmsInfoGraph() {
     }
   });
 
+  const handleChangeYear = (value) => {
+    setFilterYear(value);
+    list_refetch();
+  }
+
+  const renderHeader = () => {
+    return (<ChartHeader 
+      year={filterYear}
+      title="ICMS em" 
+      onChangeYear={handleChangeYear}
+      showMonth={false}
+      showDay={false}
+    />)
+  }
+
   return (
     <Card>
-      <CardHeader title="ICMS" subheader="" />
+      <CardHeader title={renderHeader(0)} subheader="" />
       <Box sx={{ p: 3, pb: 1 }} dir="ltr">
-      {!list_isLoading && list_data != null && 
-        <ReactApexChart type="line" series={list_data.data} options={chartOptions} height={364} />}
+        <ChartLoader 
+            loading={list_isLoading}
+            error={list_error}
+            data={list_data}
+            dataAddress={"data"}
+          > 
+          <ReactApexChart type="line" series={list_data ? list_data.data : []} options={chartOptions} height={364} />
+        </ChartLoader>
       </Box>
     </Card>
   );
