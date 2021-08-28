@@ -1,40 +1,31 @@
 import { FormControl, Box, Select, MenuItem, Input } from '@material-ui/core';
 import { useState } from 'react';
-/*import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
+  title: {
+    display: 'inline',
+    marginRight: 15,
   },
-  paper: {
-    width: '100%',
-    marginBottom: theme.spacing(2),
+  fields: {
+    display: 'inline',
   },
-  table: {
-    minWidth: 750,
-  },
-  visuallyHidden: {
-    border: 0,
-    clip: 'rect(0 0 0 0)',
-    height: 1,
-    margin: -1,
-    overflow: 'hidden',
-    padding: 0,
-    position: 'absolute',
-    top: 20,
-    width: 1,
-  },
-}));*/
+  combobox: {
+    minWidth: 70,
+    marginLeft: 5
+  }
+}));
 
 export default function ChartHeader(props) {
-  //const classes = useStyles();
+  const classes = useStyles();
   const defautlValue = 'todos'
   const [year, setYear] = useState(props.year ?? 0);
   const [month, setMonth] = useState(props.month ?? 0);
   const [day, setDay] = useState(props.day ?? 0);
 
-  const showDay = props.showDay == false ? false : true;
-  const showMonth = props.showMonth == false ? false : true;
+  const showDay = props.showDay === false ? false : true;
+  const showMonth = props.showMonth === false ? false : true;
+  const inline = props.inline === false ? false : true;
 
   const getYears = () => {
     var years = [{
@@ -122,13 +113,13 @@ export default function ChartHeader(props) {
 
   return (
     <>
-      <Box>{props.title}</Box>
-      <Box>
+      <Box className={classes.title}>{props.title}</Box>
+      {!inline && <Box></Box>}
+      <Box className={classes.fields}>
         {showDay && (<>
             <FormControl>
               <Select
-                labelId="demo-dialog-select-label"
-                id="demo-dialog-select"
+                className={classes.combobox}
                 value={day}
                 onChange={handleChangeDay}
                 input={<Input />}
@@ -145,8 +136,7 @@ export default function ChartHeader(props) {
         {showMonth && (<>
             <FormControl>
               <Select
-                labelId="demo-dialog-select-label"
-                id="demo-dialog-select"
+                className={classes.combobox}
                 value={month}
                 onChange={handleChangeMonth}
                 input={<Input />}
@@ -162,8 +152,7 @@ export default function ChartHeader(props) {
         )}
         <FormControl>
           <Select
-            labelId="demo-dialog-select-label"
-            id="demo-dialog-select"
+            className={classes.combobox}
             value={year}
             onChange={handleChangeYear}
             input={<Input />}

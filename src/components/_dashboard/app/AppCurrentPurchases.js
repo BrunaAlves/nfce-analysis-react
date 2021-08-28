@@ -105,6 +105,7 @@ export default function AppCurrentPurchases() {
       year={filterYear}
       month={filterMonth}
       day={filterDay}
+      inline={false}
       title="Porcentagem de compras por local em" 
       onChangeYear={handleChangeYear}
       onChangeMonth={handleChangeMonth}

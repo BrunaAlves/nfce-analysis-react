@@ -105,6 +105,7 @@ export default function AppPurchasesPerCategory() {
       year={filterYear}
       month={filterMonth}
       day={filterDay}
+      inline={false}
       title="Porcentagem de compras por categoria em" 
       onChangeYear={handleChangeYear}
       onChangeMonth={handleChangeMonth}
