@@ -62,7 +62,7 @@ export default function CategoryDialog(props) {
     let currentItem = props.payload;
     currentItem.category = currentCategory;
 
-    axios.post(`${baseUrl}/items/byitemcode`, currentItem, {
+    axios.post(`${baseUrl}/item/byitemcode`, currentItem, {
       headers: { Authorization: `Bearer ${currentUser.token}` }
     });
 

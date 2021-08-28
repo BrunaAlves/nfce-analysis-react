@@ -49,7 +49,7 @@ export default function AppCurrentPurchases() {
     data: list_data ,
     refetch: list_refetch
   } = useQuery('Pie', () => {
-        return axios.get(`${baseUrl}/dashboard/piechart/perlocation?userId=${currentUser.id}`, {
+        return axios.get(`${baseUrl}/dashboard/piechart/perlocation?userId=${currentUser.id}&year=2021`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
         }

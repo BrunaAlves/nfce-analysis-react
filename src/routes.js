@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import DashboardApp from './pages/DashboardApp';
 import Nfce from './pages/Nfce';
+import Item from './pages/Item';
 import NotFound from './pages/Page404';
 
 // ----------------------------------------------------------------------
@@ -20,6 +21,7 @@ export default function Router() {
         { path: '/', element: <Navigate to="/dashboard/app" replace /> },
         { path: 'app', element: <DashboardApp /> },
         { path: 'nfce', element: <Nfce /> },
+        { path: 'item', element: <Item /> }
       ]
     },
     {

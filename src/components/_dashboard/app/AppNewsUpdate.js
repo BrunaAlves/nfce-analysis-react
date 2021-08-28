@@ -34,12 +34,6 @@ function NewsItem({ news }) {
 
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
-      <Box
-        component="img"
-        alt={title}
-        src={image}
-        sx={{ width: 48, height: 48, borderRadius: 1.5 }}
-      />
       <Box sx={{ minWidth: 240 }}>
         <Link to="#" color="inherit" underline="hover" component={RouterLink}>
           <Typography variant="subtitle2" noWrap>

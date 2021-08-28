@@ -51,7 +51,7 @@ export default function AppTotalSpentCurrentMonth() {
     data: total_value ,
     refetch: list_refetch
   } = useQuery('CurrentMonth', () => {
-        return axios.get(`${baseUrl}/dashboard/totalcurrentmonth?userId=${currentUser.id}`, {
+        return axios.get(`${baseUrl}/dashboard/totalcurrentmonth?userId=${currentUser.id}&year=2021`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
         }

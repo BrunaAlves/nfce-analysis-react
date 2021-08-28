@@ -62,7 +62,7 @@ export default function AppOrderTimeline() {
     data: list_data ,
     refetch: list_refetch
   } = useQuery('Timeline', () => {
-        return axios.get(`${baseUrl}/dashboard/timeline?userId=${currentUser.id}`, {
+        return axios.get(`${baseUrl}/dashboard/timeline?userId=${currentUser.id}&year=2021`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
         }

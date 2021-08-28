@@ -24,7 +24,7 @@ export default function AppIcmsInfoGraph() {
     data: list_data ,
     refetch: list_refetch
   } = useQuery('Icms', () => {
-        return axios.get(`${baseUrl}/dashboard/icms?userId=${currentUser.id}`, {
+        return axios.get(`${baseUrl}/dashboard/icms?userId=${currentUser.id}&year=2021`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
         }

@@ -13,8 +13,18 @@ const sidebarConfig = [
     icon: getIcon(pieChart2Fill)
   },
   {
-    title: 'Nfce',
+    title: 'Nfces',
     path: '/dashboard/nfce',
+    icon: getIcon(fileTextFill)
+  },
+  {
+    title: 'Itens',
+    path: '/dashboard/item',
+    icon: getIcon(fileTextFill)
+  },
+  {
+    title: 'Categorias',
+    path: '/dashboard/item',
     icon: getIcon(fileTextFill)
   }
 ];

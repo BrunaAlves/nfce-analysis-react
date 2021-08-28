@@ -26,7 +26,7 @@ export default function AppValuesPerMonth() {
     data: list_data ,
     refetch: list_refetch
   } = useQuery('Bar', () => {
-        return axios.get(`${baseUrl}/dashboard/valuespermonths?userId=${currentUser.id}`, {
+        return axios.get(`${baseUrl}/dashboard/valuespermonths?userId=${currentUser.id}&year=2021`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
         }

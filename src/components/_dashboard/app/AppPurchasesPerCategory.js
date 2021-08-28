@@ -49,7 +49,7 @@ export default function AppPurchasesPerCategory() {
     data: list_data ,
     refetch: list_refetch
   } = useQuery('PieCategory', () => {
-        return axios.get(`${baseUrl}/dashboard/piechart/category?userId=${currentUser.id}`, {
+        return axios.get(`${baseUrl}/dashboard/piechart/category?userId=${currentUser.id}&year=2021`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
         }

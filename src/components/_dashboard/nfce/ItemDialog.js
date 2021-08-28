@@ -118,7 +118,7 @@ export default function ItemDialog(props) {
   } = useQuery(['Item', props.payload], (key) => {
     let data = key.queryKey[1];
       if(data)
-        return axios.get(`${baseUrl}/items/nfce/${data._id}`, {
+        return axios.get(`${baseUrl}/item/nfce/${data._id}`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
     }

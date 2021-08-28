@@ -51,7 +51,7 @@ export default function AppTotalSpentLastYear() {
     data: total_value ,
     refetch: list_refetch
   } = useQuery('LastYear', () => {
-        return axios.get(`${baseUrl}/dashboard/totallastyear?userId=${currentUser.id}`, {
+        return axios.get(`${baseUrl}/dashboard/totallastyear?userId=${currentUser.id}&year=2021`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
         }
