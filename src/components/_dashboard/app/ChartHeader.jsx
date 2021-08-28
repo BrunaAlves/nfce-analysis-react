@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ChartHeader(props) {
   //const classes = useStyles();
+  const defautlValue = 'todos'
   const [year, setYear] = useState(props.year ?? 0);
   const [month, setMonth] = useState(props.month ?? 0);
   const [day, setDay] = useState(props.day ?? 0);
@@ -37,7 +38,7 @@ export default function ChartHeader(props) {
 
   const getYears = () => {
     var years = [{
-      text: '-',
+      text: defautlValue,
       value: 0
     }];
     for(var i=2000; i<=(new Date()).getFullYear(); i++)
@@ -50,7 +51,7 @@ export default function ChartHeader(props) {
 
   const getMonths = () => {
     return [{
-      text: '-',
+      text: defautlValue,
       value: 0
     },{
       text: "Jan",
@@ -93,7 +94,7 @@ export default function ChartHeader(props) {
 
   const getDays = () => {
     var days = [{
-      text: '-',
+      text: defautlValue,
       value: 0
     }];
     for(var i=1; i<31; i++)
@@ -121,7 +122,7 @@ export default function ChartHeader(props) {
 
   return (
     <>
-      {props.title}
+      <Box>{props.title}</Box>
       <Box>
         {showDay && (<>
             <FormControl>

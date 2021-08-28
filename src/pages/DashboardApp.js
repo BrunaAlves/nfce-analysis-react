@@ -41,7 +41,7 @@ export default function DashboardApp() {
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>
-            <AppIcmsInfoGraph />
+            <AppValuesPerMonth />
           </Grid>
 
           <Grid item xs={12} md={6} lg={4}>
@@ -49,7 +49,7 @@ export default function DashboardApp() {
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>
-            <AppValuesPerMonth />
+            <AppIcmsInfoGraph />
           </Grid>
 
           <Grid item xs={12} md={6} lg={4}>
