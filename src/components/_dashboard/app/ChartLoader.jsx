@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function ChartHeader(props) {
+export default function ChartLoader(props) {
   const classes = useStyles();
 
   const loading = props.loading;
