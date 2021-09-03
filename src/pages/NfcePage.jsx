@@ -100,7 +100,7 @@ export default function NfcePage() {
 
   if (nfceList.length == 0) {
     axios
-      .get(`${baseUrl}/nfce/user/${currentUser.id}`, {
+      .get(`${baseUrl}/nfce/all`, {
         headers: { Authorization: `Bearer ${currentUser.token}` },
       })
       .then(function (response) {

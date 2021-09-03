@@ -29,7 +29,7 @@ export default function CategoriesList() {
     data: categories_data ,
     refetch: categories_refetch
   } = useQuery(['Categories'], (args) => {
-        return axios.get(`${baseUrl}/category/all/${currentUser.id}`, {
+        return axios.get(`${baseUrl}/category/all`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
         }

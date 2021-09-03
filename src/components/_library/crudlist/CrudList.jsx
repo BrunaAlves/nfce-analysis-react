@@ -58,7 +58,7 @@ function applySortFilter(array, comparator, query) {
   if (query) {
     return filter(
       array,
-      (_nfce) => _nfce.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (x) => x.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
   return stabilizedThis.map((el) => el[0]);
