@@ -48,16 +48,16 @@ export default function DashboardPage() {
             <AppCurrentPurchases />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={8}>
-            <AppIcmsInfoGraph />
-          </Grid>
-
           <Grid item xs={12} md={6} lg={4}>
             <AppPurchasesPerCategory />
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>
             <AppNewsUpdate />
+          </Grid>
+
+          <Grid item xs={12} md={6} lg={8}>
+            <AppIcmsInfoGraph />
           </Grid>
 
           <Grid item xs={12} md={6} lg={4}>

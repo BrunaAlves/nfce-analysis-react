@@ -1,14 +1,22 @@
+import React from 'react';
 // material
 import { Box, Grid, Container, Typography } from "@material-ui/core";
 // components
 import Page from "../components/Page";
 import { AppOrderTimeline, AppNewsUpdate } from "../components/_dashboard/app";
+import ItemList from '../components/_dashboard/item/ItemList';
 
 import ItemDialog from "../components/_dashboard/nfce/ItemDialog";
 
 // ----------------------------------------------------------------------
 
 export default function ItemsPage() {
+  const [selectedNfceId, setSelectedNfecId] = React.useState(null);
+
+  const onSelectNfceHandler = (nfceId) => {
+    setSelectedNfecId(nfceId)
+  }
+
   return (
     <Page title="Items | Minimal-UI">
       <Container maxWidth="xl">
@@ -17,12 +25,16 @@ export default function ItemsPage() {
             Selecione a compra para acessar a lista de itens
           </Typography>
         </Box>
-        <Grid container spacing={3}>
+        <Grid container spacing={1}>
           <Grid item xs={12} md={6} lg={4}>
-            <AppOrderTimeline />
+            <AppOrderTimeline 
+              onSelectNfce={onSelectNfceHandler}
+            />
           </Grid>
           <Grid item xs={12} md={6} lg={8}>
-            
+          <ItemList 
+            nfceId={selectedNfceId}
+          />
           </Grid>
         </Grid>
       </Container>
