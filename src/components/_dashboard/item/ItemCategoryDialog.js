@@ -14,7 +14,8 @@ import Select from '@material-ui/core/Select';
 import config from "../../../config.json";
 import axios from "axios";
 import AuthService from "../../../services/auth.service";
-import { useQuery, useMutation } from 'react-query'
+import { useQuery, useMutation } from 'react-query';
+import ItemCategoryMatchTable from './ItemCategoryMatchTable'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CategoryDialog(props) {
+export default function ItemCategoryDialog(props) {
   const classes = useStyles();
   const [category, setCategory] = React.useState('');
 
@@ -48,7 +49,7 @@ export default function CategoryDialog(props) {
     error: list_error,
     data: list_category ,
     refetch: list_refetch
-  } = useQuery(['CategoriesDialog', props.payload], (key) => {
+  } = useQuery(['CategoriesList', props.payload], (key) => {
     let data = key.queryKey[1];
       if(data)
         return axios.get(`${baseUrl}/category/all`, {
@@ -60,9 +61,9 @@ export default function CategoryDialog(props) {
   const patchByItemCode = () => {  
     let currentCategory = list_category.find(x => x.id === category);
     let currentItem = props.payload;
-    currentItem.category = currentCategory;
+    currentItem.categoryId = currentCategory.id;
 
-    axios.post(`${baseUrl}/item/byitemcode`, currentItem, {
+    axios.put(`${baseUrl}/item/byitemcode`, currentItem, {
       headers: { Authorization: `Bearer ${currentUser.token}` }
     });
 
@@ -77,7 +78,7 @@ export default function CategoryDialog(props) {
         aria-describedby="alert-dialog-description"
         PaperProps={{
           style: {
-            minWidth: 600
+            minWidth: 700
           }
         }}
       >
@@ -100,6 +101,7 @@ export default function CategoryDialog(props) {
                 }
               </Select>
             </FormControl>
+            <ItemCategoryMatchTable itemId={props.payload ? props.payload._id : null}/>
           
         </DialogContent>
         <DialogActions>

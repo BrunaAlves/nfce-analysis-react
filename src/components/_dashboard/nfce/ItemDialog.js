@@ -187,7 +187,6 @@ export default function ItemDialog(props) {
   var filteredNfces = [];
   if(list_data != null)
   {
-   // console.info(list_data)
     filteredNfces = applySortFilter(
       list_data,
       getComparator(order, orderBy),

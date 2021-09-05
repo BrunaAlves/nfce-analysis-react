@@ -34,8 +34,8 @@ export default function CrudListMenu({items}) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        {items.map((item) => (
-          <MenuItem sx={{ color: 'text.secondary' }} onClick={() => {item.onClick?.()}}>
+        {items.map((item, itemIndex) => (
+          <MenuItem key={itemIndex} sx={{ color: 'text.secondary' }} onClick={() => {item.onClick?.()}}>
             <ListItemIcon>
               <Icon icon="flashFill" width={24} height={24} />
             </ListItemIcon>

@@ -33,7 +33,7 @@ export default function CrudListHeader({
         {headLabel.filter(x => !x.hidden).map((headCell, headCellIndex) => {
           return (
             <TableCell
-              key={headCell.headCellIndex}
+              key={headCellIndex}
               align={headCell.alignRight ? 'right' : 'left'}
               sortDirection={orderBy === headCell.id ? order : false}
             >
