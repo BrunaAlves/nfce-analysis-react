@@ -7,8 +7,8 @@ import axios from "axios";
 import AuthService from "../../../services/auth.service";
 import CrudList from "../../_library/crudlist/CrudList";
 import { useQuery } from "react-query";
- import ItemCategoryDialog from "./ItemCategoryDialog";
-// import EditCategoryDialog from "./EditCategoryDialog";
+import ItemCategoryDialog from "./ItemCategoryDialog";
+import ItemDiscountDialog from "./ItemDiscountDialog";
 // import DeleteCategoryDialog from './DeleteCategoryDialog';
 
 export default function ItemsList(props) {
@@ -75,7 +75,7 @@ export default function ItemsList(props) {
         newNfce.push({
           ...item,
           ...{ categoryName: getCategoryNameById(item.categoryId) },
-          ...{ discountValue: getDiscountValueById(item._id) },
+          ...{ discountValue: getDiscountValueById(item.id) },
         });
       });
       setNfceList(newNfce);
@@ -84,9 +84,9 @@ export default function ItemsList(props) {
 
   if (!props.nfceId) return <>Selecione um nfce</>;
 
-  //   function addHandler() {
-  //     setState({action:"add", categoryId: null})
-  //   }
+    function discountHandler(item) {
+      setState({action:"discount", payload: item})
+    }
 
     function categoryHandler(item) {
       setState({action:"edit", payload: item})
@@ -116,7 +116,7 @@ export default function ItemsList(props) {
         title: "Adicionar desconto",
         icon: "trash-2-fill",
         onClick: () => {
-          //   deleteHandler(category.id)
+             discountHandler(item)
         },
       },
       {
@@ -168,6 +168,12 @@ export default function ItemsList(props) {
 
         <ItemCategoryDialog 
             open={state && state.action === "edit"}
+            payload={state ? state.payload : null}
+            onClose={handleCloseDialog}
+          />
+
+        <ItemDiscountDialog 
+            open={state && state.action === "discount"}
             payload={state ? state.payload : null}
             onClose={handleCloseDialog}
           />

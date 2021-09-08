@@ -101,7 +101,7 @@ export default function ItemCategoryDialog(props) {
                 }
               </Select>
             </FormControl>
-            <ItemCategoryMatchTable itemId={props.payload ? props.payload._id : null}/>
+            <ItemCategoryMatchTable itemId={props.payload ? props.payload.id : null}/>
           
         </DialogContent>
         <DialogActions>

@@ -236,7 +236,7 @@ export default function NfcePage() {
                       } = row;
 
                       return (
-                        <TableRow hover key={row._id}>
+                        <TableRow hover key={row.id}>
                           <TableCell></TableCell>
                           <TableCell component="th" scope="row" padding="none">
                             <Stack
