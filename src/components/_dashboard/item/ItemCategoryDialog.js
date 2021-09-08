@@ -65,9 +65,9 @@ export default function ItemCategoryDialog(props) {
 
     axios.put(`${baseUrl}/item/byitemcode`, currentItem, {
       headers: { Authorization: `Bearer ${currentUser.token}` }
+    }).then(() => {
+      handleClose();
     });
-
-    handleClose();
   };
 
   return (

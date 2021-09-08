@@ -22,6 +22,7 @@ export default function ItemsList(props) {
     isLoading: categories_isLoading,
     error: categories_error,
     data: categories_data,
+    refetch: categories_refetch
   } = useQuery(["Categories"], (args) => {
     return axios
       .get(`${baseUrl}/category/all`, {
@@ -34,6 +35,7 @@ export default function ItemsList(props) {
     isLoading: discounts_isLoading,
     error: discounts_error,
     data: discounts_data,
+    refetch: discounts_refetch
   } = useQuery(["Discounts"], (args) => {
     return axios
       .get(`${baseUrl}/discount/all`, {
@@ -78,7 +80,7 @@ export default function ItemsList(props) {
       });
       setNfceList(newNfce);
     }
-  }, [props.nfceId, items_data, categories_data, discounts_data]);
+  }, [props.nfceId, items_data, categories_data, discounts_data, state]);
 
   if (!props.nfceId) return <>Selecione um nfce</>;
 
@@ -96,6 +98,8 @@ export default function ItemsList(props) {
 
     function handleCloseDialog(){
       item_refetch();
+      categories_refetch();
+      discounts_refetch();
       setState(null);
     }
 

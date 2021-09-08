@@ -44,7 +44,7 @@ export default function ItemCategoryMatchTable(props) {
           for (const property in r.data) {
             list.push({
               name: property,
-              value: r.data[property]
+              value: parseInt(parseFloat(r.data[property]) * 100)
             });
           }
           return list;
@@ -61,13 +61,13 @@ export default function ItemCategoryMatchTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {categoryMatch_data && categoryMatch_data.map((row) => (
+          {categoryMatch_data && categoryMatch_data.sort((a,b) => b.value - a.value).map((row) => (
             <TableRow key={row.name}>
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
               
-              <TableCell align="right">{row.value}</TableCell>
+              <TableCell align="right">{row.value + "%"}</TableCell>
 
             </TableRow>
           ))}

@@ -141,6 +141,14 @@ export default function CrudList({data, headers, pagination, onRenderMenu}) {
     filterName
   );
 
+  const renderColumn = (row, header) => {
+    var value =   row[header.id];
+    if(header.onRender)
+      return header.onRender(value, row);
+    
+    return (<>{value}</>)
+  };
+
   const isEmpty = filteredData.length === 0;
 
   return (
@@ -173,7 +181,7 @@ export default function CrudList({data, headers, pagination, onRenderMenu}) {
                                 if(header.hidden)
                                     return <></>
                                 return (
-                                    <TableCell key={`${rowIndex}-${headerIndex}`} align="left">{row[header.id]}</TableCell>
+                                    <TableCell key={`${rowIndex}-${headerIndex}`} align="left">{renderColumn(row, header)}</TableCell>
                                 )
                             })}
                           <TableCell align="right">

@@ -18,6 +18,11 @@ export default function CrudListMenu({items}) {
   if(!items)
     return <></>
 
+  const handleClick = (item) => {
+    item.onClick?.()
+    setIsOpen(false)
+  }
+
   return (
     <>
       <IconButton ref={ref} onClick={() => setIsOpen(true)}>
@@ -35,7 +40,7 @@ export default function CrudListMenu({items}) {
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         {items.map((item, itemIndex) => (
-          <MenuItem key={itemIndex} sx={{ color: 'text.secondary' }} onClick={() => {item.onClick?.()}}>
+          <MenuItem key={itemIndex} sx={{ color: 'text.secondary' }} onClick={() => {handleClick(item)}}>
             <ListItemIcon>
               <Icon icon="flashFill" width={24} height={24} />
             </ListItemIcon>
