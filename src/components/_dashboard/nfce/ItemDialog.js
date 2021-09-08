@@ -118,7 +118,7 @@ export default function ItemDialog(props) {
   } = useQuery(['Item', props.payload], (key) => {
     let data = key.queryKey[1];
       if(data)
-        return axios.get(`${baseUrl}/item/nfce/${data._id}`, {
+        return axios.get(`${baseUrl}/item/nfce/${data.id}`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
     }
@@ -187,7 +187,6 @@ export default function ItemDialog(props) {
   var filteredNfces = [];
   if(list_data != null)
   {
-   // console.info(list_data)
     filteredNfces = applySortFilter(
       list_data,
       getComparator(order, orderBy),

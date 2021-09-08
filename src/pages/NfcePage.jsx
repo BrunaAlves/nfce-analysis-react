@@ -88,7 +88,7 @@ export default function NfcePage() {
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState("name");
   const [filterName, setFilterName] = useState("");
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
 
   const [isItemDialogOpen, setIsItemDialogOpen] = useState(false);
   const [itemDialogPayload, setItemDialogPayload] = useState(null);
@@ -236,7 +236,7 @@ export default function NfcePage() {
                       } = row;
 
                       return (
-                        <TableRow hover key={row._id}>
+                        <TableRow hover key={row.id}>
                           <TableCell></TableCell>
                           <TableCell component="th" scope="row" padding="none">
                             <Stack
@@ -257,11 +257,11 @@ export default function NfcePage() {
                             {totalValueService}
                           </TableCell>
 
-                          <TableCell align="right">
+                          {/* <TableCell align="right">
                             <NfceMoreMenu
                               onOpenItem={() => handleOpenItem(row)}
                             />
-                          </TableCell>
+                          </TableCell> */}
                         </TableRow>
                       );
                     })}

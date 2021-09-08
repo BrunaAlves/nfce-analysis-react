@@ -9,7 +9,8 @@ import DashboardPage from './pages/DashboardPage';
 import NfcePage from './pages/NfcePage';
 import ItemsPage from './pages/ItemsPage';
 import NotFoundPage from './pages/404Page';
-import CategoriesPage from './pages/CategoriesPage'
+import CategoriesPage from './pages/CategoriesPage';
+import AcquisitionsPage from './pages/AcquisitionPage';
 
 // ----------------------------------------------------------------------
 
@@ -23,7 +24,8 @@ export default function Router() {
         { path: 'app', element: <DashboardPage /> },
         { path: 'nfce', element: <NfcePage /> },
         { path: 'item', element: <ItemsPage /> },
-        { path: 'categories', element: <CategoriesPage /> }
+        { path: 'categories', element: <CategoriesPage /> },
+        { path: 'acquisition', element: <AcquisitionsPage /> }
       ]
     },
     {

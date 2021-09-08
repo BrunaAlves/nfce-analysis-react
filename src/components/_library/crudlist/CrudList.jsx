@@ -141,6 +141,14 @@ export default function CrudList({data, headers, pagination, onRenderMenu}) {
     filterName
   );
 
+  const renderColumn = (row, header) => {
+    var value =   row[header.id];
+    if(header.onRender)
+      return header.onRender(value, row);
+    
+    return (<>{value}</>)
+  };
+
   const isEmpty = filteredData.length === 0;
 
   return (
@@ -169,11 +177,11 @@ export default function CrudList({data, headers, pagination, onRenderMenu}) {
                       return (
                         <TableRow hover key={rowIndex}>
                             <TableCell></TableCell>
-                            {headers.map((header) => {
+                            {headers.map((header, headerIndex) => {
                                 if(header.hidden)
                                     return <></>
                                 return (
-                                    <TableCell align="left">{row[header.id]}</TableCell>
+                                    <TableCell key={`${rowIndex}-${headerIndex}`} align="left">{renderColumn(row, header)}</TableCell>
                                 )
                             })}
                           <TableCell align="right">
@@ -185,14 +193,14 @@ export default function CrudList({data, headers, pagination, onRenderMenu}) {
                       );
                     })}
                   {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
+                    <TableRow key={-1} style={{ height: 53 * emptyRows }}>
                       <TableCell colSpan={6} />
                     </TableRow>
                   )}
                 </TableBody>
                 {isEmpty && filterName && (
                   <TableBody>
-                    <TableRow>
+                    <TableRow key={-1}>
                       <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
                         <SearchNotFound searchQuery={filterName} />
                       </TableCell>
@@ -200,9 +208,13 @@ export default function CrudList({data, headers, pagination, onRenderMenu}) {
                   </TableBody>
                 )}
                 {isEmpty && !filterName && (
-                  <Box className={classes.loading}>
-                     <CircularProgress />
-                  </Box>
+                  <TableBody>
+                    <TableRow key={-1}>
+                      <Box className={classes.loading}>
+                        <CircularProgress />
+                      </Box>
+                    </TableRow>
+                  </TableBody>
                 )}
               </Table>
             </TableContainer>

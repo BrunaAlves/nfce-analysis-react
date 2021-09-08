@@ -123,7 +123,7 @@ export default function AppPurchasesPerCategory() {
         data={list_data}
         dataAddress={"series"}
       >
-        <ReactApexChart type="pie" series={list_data ? list_data.series : []} options={chartOptions} height={280} />
+        <ReactApexChart type="donut" series={list_data ? list_data.series : []} options={chartOptions} height={280} />
      </ChartLoader>
       
       </ChartWrapperStyle>

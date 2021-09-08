@@ -26,6 +26,11 @@ const sidebarConfig = [
     title: 'Categorias',
     path: '/dashboard/categories',
     icon: getIcon(fileTextFill)
+  },
+  {
+    title: 'Sugestões de compras',
+    path: '/dashboard/acquisition',
+    icon: getIcon(fileTextFill)
   }
 ];
 
