@@ -6,9 +6,11 @@ import AuthService from "../../../services/auth.service";
 
 
 export default function AddAcquisitionDialog({onClose, open}) {
-  const category = {
+  const acquisition = {
       id: "",
-      name: ""
+      name: "",
+      frequency: "diario",
+      itemCodes: []
   }
 
   const baseUrl = config.apiBaseUrl;
@@ -16,7 +18,7 @@ export default function AddAcquisitionDialog({onClose, open}) {
 
   const handleConfirm = (data) => {
     data.userId = currentUser.id;
-    axios.post(`${baseUrl}/category/`, data, {
+    axios.post(`${baseUrl}/acquisition/`, data, {
         headers: { Authorization: `Bearer ${currentUser.token}` },
       }).then((r) => {
         onClose?.();
@@ -25,11 +27,11 @@ export default function AddAcquisitionDialog({onClose, open}) {
 
   return (
     <CategoryDialog
-      title="Adicionar categoria"
+      title="Adicionar sugestao de compra"
       onClose={onClose}
       onConfirm={handleConfirm}
       open={open}
-      payload={category}
+      payload={acquisition}
     />
   );
 }

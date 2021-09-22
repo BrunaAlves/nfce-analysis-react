@@ -72,10 +72,14 @@ function applySortFilter(array, comparator, query) {
   pagination: boolean, default true
   onRenderMenu: (rowData) => menu 
 */
-export default function CrudList({data, headers, pagination, onRenderMenu}) {
+export default function CrudList({data, headers, pagination, paginationSize, onRenderMenu, minWidth, searchBar, isLoading}) {
   data = data ?? [];
   headers = headers ?? [];
   pagination = pagination === false ? false : true;
+  minWidth = minWidth ?? 800;
+  searchBar = searchBar === false ? false : true;
+  paginationSize = paginationSize ?? 25;
+  isLoading = isLoading === true;
 
   const classes = useStyles();
 
@@ -84,7 +88,7 @@ export default function CrudList({data, headers, pagination, onRenderMenu}) {
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState("name");
   const [filterName, setFilterName] = useState("");
-  const [rowsPerPage, setRowsPerPage] = useState(25);
+  const [rowsPerPage, setRowsPerPage] = useState(paginationSize);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -142,7 +146,7 @@ export default function CrudList({data, headers, pagination, onRenderMenu}) {
   );
 
   const renderColumn = (row, header) => {
-    var value =   row[header.id];
+    var value = row[header.id];
     if(header.onRender)
       return header.onRender(value, row);
     
@@ -153,13 +157,15 @@ export default function CrudList({data, headers, pagination, onRenderMenu}) {
 
   return (
       <>
+      {searchBar && 
         <CrudListToolbar
           numSelected={selected.length}
           filterName={filterName}
           onFilterName={handleFilterByName}
         />
+      }
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
+            <TableContainer sx={{ minWidth: minWidth }}>
               <Table>
                 <CrudListHeader
                   order={order}
@@ -169,14 +175,13 @@ export default function CrudList({data, headers, pagination, onRenderMenu}) {
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
-                />
+                /> 
                 <TableBody>
                   {filteredData
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row, rowIndex) => {
                       return (
                         <TableRow hover key={rowIndex}>
-                            <TableCell></TableCell>
                             {headers.map((header, headerIndex) => {
                                 if(header.hidden)
                                     return <></>
@@ -184,11 +189,12 @@ export default function CrudList({data, headers, pagination, onRenderMenu}) {
                                     <TableCell key={`${rowIndex}-${headerIndex}`} align="left">{renderColumn(row, header)}</TableCell>
                                 )
                             })}
-                          <TableCell align="right">
-                            <CrudListMenu
-                              items={onRenderMenu?.(row)}
-                            />
-                          </TableCell>
+                            
+                            <TableCell align="right">
+                              <CrudListMenu
+                                items={onRenderMenu?.(row)}
+                              />
+                            </TableCell>
                         </TableRow>
                       );
                     })}
@@ -198,7 +204,7 @@ export default function CrudList({data, headers, pagination, onRenderMenu}) {
                     </TableRow>
                   )}
                 </TableBody>
-                {isEmpty && filterName && (
+                {!isLoading && isEmpty && filterName && (
                   <TableBody>
                     <TableRow key={-1}>
                       <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
@@ -207,7 +213,16 @@ export default function CrudList({data, headers, pagination, onRenderMenu}) {
                     </TableRow>
                   </TableBody>
                 )}
-                {isEmpty && !filterName && (
+                {!isLoading && isEmpty && !filterName && (
+                  <TableBody>
+                    <TableRow key={-1}>
+                      <Box className={classes.loading}>
+                        Nao tem nada aqui ainda :(
+                      </Box>
+                    </TableRow>
+                  </TableBody>
+                )}
+                {isLoading && (
                   <TableBody>
                     <TableRow key={-1}>
                       <Box className={classes.loading}>

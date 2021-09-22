@@ -5,12 +5,12 @@ import AuthService from "../../../services/auth.service";
 import ConfirmDialog from "../../_library/confirmDialog/ConfirmDialog";
 
 
-export default function DeleteAcquisitionDialog({onClose, open, categoryId}) {
+export default function DeleteAcquisitionDialog({onClose, open, acquisitionId}) {
   const baseUrl = config.apiBaseUrl;
   const currentUser = AuthService.getCurrentUser();
 
   const handleConfirm = () => {
-    axios.delete(`${baseUrl}/category/${categoryId}`, {
+    axios.delete(`${baseUrl}/acquisition/${acquisitionId}`, {
         headers: { Authorization: `Bearer ${currentUser.token}` },
       }).then((r) => {
         onClose?.();
@@ -19,11 +19,11 @@ export default function DeleteAcquisitionDialog({onClose, open, categoryId}) {
 
   return (
     <ConfirmDialog
-      title="Remover categoria"
+      title="Remover sugestao de compra"
       onClose={onClose}
       onConfirm={handleConfirm}
       open={open}
-      message="Deseja remover a categoria?"
+      message="Deseja remover a sugestao de compra?"
     />
   );
 }

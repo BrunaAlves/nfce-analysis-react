@@ -38,15 +38,15 @@ export default function AcquisitionList() {
   )
 
   function addHandler() {
-    setState({action:"add", categoryId: null})
+    setState({action:"add", acquisitionId: null})
   }
 
-  function editHandler(categoryId) {
-    setState({action:"edit", categoryId: categoryId})
+  function editHandler(acquisitionId) {
+    setState({action:"edit", acquisitionId: acquisitionId})
   }
 
-  function deleteHandler(categoryId) {
-    setState({action:"delete", categoryId: categoryId})
+  function deleteHandler(acquisitionId) {
+    setState({action:"delete", acquisitionId: acquisitionId})
   }
 
   function handleCloseDialog(){
@@ -54,18 +54,19 @@ export default function AcquisitionList() {
     setState(null);
   }
 
-  function renderMenuHandle(category) {
+  function renderMenuHandle(acquisition) {
     return [{
       title: "Editar",
       icon: "trash-2-fill",
       onClick: () => {
-        editHandler(category.id)
+        console.info(acquisition)
+        editHandler(acquisition.id)
       }
     },{
       title: "Deletar",
       icon: "trash-2-fill",
       onClick: () => {
-        deleteHandler(category.id)
+        deleteHandler(acquisition.id)
       }
     }]
   }
@@ -115,13 +116,13 @@ export default function AcquisitionList() {
 
           <EditAcquisitionDialog 
             open={state && state.action === "edit"}
-            categoryId={state ? state.categoryId : null}
+            acquisitionId={state ? state.acquisitionId : null}
             onClose={handleCloseDialog}
           />
 
           <DeleteAcquisitionDialog
             open={state && state.action === "delete"}
-            categoryId={state ? state.categoryId : null}
+            acquisitionId={state ? state.acquisitionId : null}
             onClose={handleCloseDialog}
           />
         </Card>

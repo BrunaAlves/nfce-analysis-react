@@ -5,16 +5,16 @@ import AuthService from "../../../services/auth.service";
 import {useQuery} from 'react-query';
 import config from "../../../config.json";
 
-export default function EditAcquisitionDialog({onClose, categoryId, open}) {
+export default function EditAcquisitionDialog({onClose, acquisitionId, open}) {
   const baseUrl = config.apiBaseUrl;
   const currentUser = AuthService.getCurrentUser();
-
+ console.info(acquisitionId)
   const { 
-    isLoading: category_isLoading,
-    data: category,
-  } = useQuery(['Category', categoryId], (args) => {
-      if(categoryId)
-        return axios.get(`${baseUrl}/category/${categoryId}`, {
+    isLoading: acquisition_isLoading,
+    data: acquisition,
+  } = useQuery(['acquisition', acquisitionId], (args) => {
+      if(acquisitionId)
+        return axios.get(`${baseUrl}/acquisition/${acquisitionId}`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
             }).then((r) => r.data);
         }
@@ -22,7 +22,7 @@ export default function EditAcquisitionDialog({onClose, categoryId, open}) {
 
   const handleConfirm = (data) => {
     data.userId = currentUser.id;
-    axios.put(`${baseUrl}/category/`, data, {
+    axios.put(`${baseUrl}/acquisition/`, data, {
       headers: { Authorization: `Bearer ${currentUser.token}`, "Access-Control-Allow-Origin": "*"},
     }).then((r) => {
       onClose?.();
@@ -30,13 +30,13 @@ export default function EditAcquisitionDialog({onClose, categoryId, open}) {
   }
 
   return (
-    <>{!category_isLoading && 
+    <>{!acquisition_isLoading && 
       <AcquisitionDialog
-        title="Editar categoria"
+        title="Editar sugestao de compra"
         onClose={onClose}
         onConfirm={handleConfirm}
         open={open}
-        payload={category}
+        payload={acquisition}
       />
     }</>
   );

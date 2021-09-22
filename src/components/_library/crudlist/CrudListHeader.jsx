@@ -28,8 +28,6 @@ export default function CrudListHeader({
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-        </TableCell>
         {headLabel.filter(x => !x.hidden).map((headCell, headCellIndex) => {
           return (
             <TableCell
@@ -53,6 +51,7 @@ export default function CrudListHeader({
             </TableCell>
           )
         })}
+        <TableCell></TableCell>
       </TableRow>
     </TableHead>
   );
