@@ -24,7 +24,13 @@ const useStyles = makeStyles(theme => ({
 
 export default function ItemDiscountDialog({onClose, onConfirm, title, payload, open}) {
   const classes = useStyles();
-  const [discountVal, setDiscountVal] = React.useState(payload ? payload.discountValue : 0)
+  const [discountVal, setDiscountVal] = React.useState(0)
+
+  React.useEffect(() => {
+    if(payload){
+      setDiscountVal(payload.discountValue ?? 0)
+    }
+  }, [payload])
 
   const baseUrl = config.apiBaseUrl;
   const currentUser = AuthService.getCurrentUser();

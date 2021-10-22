@@ -33,6 +33,12 @@ export default function ItemCategoryDialog(props) {
   const classes = useStyles();
   const [category, setCategory] = React.useState('');
 
+  React.useEffect(() => {
+    if(props.payload){
+      setCategory(props.payload.categoryId)
+    }
+  }, [props])
+
   const handleChange = (event) => {
     setCategory(event.target.value || '');
   };
