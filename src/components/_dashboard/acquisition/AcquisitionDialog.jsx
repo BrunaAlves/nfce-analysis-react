@@ -65,6 +65,13 @@ export default function AcquisitionDialog({
   const [autoCompleteValue, setAutoCompleteValue] = React.useState(null);
   const [autoCompleteInputValue, setAutoCompleteInputValue] = React.useState("");
 
+  React.useEffect(() => {
+    if(payload){
+      setFieldName(payload.name ?? "")
+      setFieldFrequency(payload.frequency ?? "")
+    }
+  }, [payload])
+
   const baseUrl = config.apiBaseUrl;
   const currentUser = AuthService.getCurrentUser();
 

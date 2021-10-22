@@ -15,7 +15,6 @@ export default function AddCategoryDialog({onClose, open}) {
   const currentUser = AuthService.getCurrentUser();
 
   const handleConfirm = (data) => {
-    data.userId = currentUser.id;
     axios.post(`${baseUrl}/category/`, data, {
         headers: { Authorization: `Bearer ${currentUser.token}` },
       }).then((r) => {
