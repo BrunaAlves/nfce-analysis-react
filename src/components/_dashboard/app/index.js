@@ -4,7 +4,7 @@ export { default as AppCurrentSubject } from './AppCurrentSubject';
 export { default as AppCurrentPurchases } from './AppCurrentPurchases';
 export { default as AppPurchasesPerCategory } from './AppPurchasesPerCategory';
 export { default as TotalSpentCurrentYear } from './AppTotalSpentCurrentYear';
-export { default as AppNewsUpdate } from './AppNewsUpdate';
+export { default as AppAcquisition } from './AppAcquisition';
 export { default as AppTotalSpentLastMonth } from './AppTotalSpentLastMonth';
 export { default as AppOrderTimeline } from './AppOrderTimeline';
 export { default as AppTasks } from './AppTasks';

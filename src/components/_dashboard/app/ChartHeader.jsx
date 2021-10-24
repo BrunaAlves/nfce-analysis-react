@@ -32,7 +32,7 @@ export default function ChartHeader(props) {
       text: defautlValue,
       value: 0
     }];
-    for(var i=2000; i<=(new Date()).getFullYear(); i++)
+    for(var i=(new Date()).getFullYear(); i>=2015; i--)
       years.push({
         text: i,
         value: i

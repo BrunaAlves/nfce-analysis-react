@@ -7,7 +7,7 @@ import {
   AppTotalSpentLastMonth,
   AppTotalSpentLastYear,
   TotalSpentCurrentYear,
-  AppNewsUpdate,
+  AppAcquisition,
   AppTotalSpentCurrentMonth,
   AppOrderTimeline,
   AppCurrentPurchases,
@@ -53,7 +53,7 @@ export default function DashboardPage() {
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>
-            <AppNewsUpdate />
+            <AppAcquisition />
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>
