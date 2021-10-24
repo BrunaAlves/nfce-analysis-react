@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CategoryDialog({onClose, onConfirm, title, payload, open}) {
   const classes = useStyles();
-  const [fieldName, setFieldName] = React.useState(payload ? payload.name : "")
+  const [fieldName, setFieldName] = React.useState("")
   const [fieldItems, setFieldItems] = React.useState([]);
   const [fieldItemCodes, setFieldItemCodes] = React.useState(null);
   const [autoCompleteValue, setAutoCompleteValue] = React.useState(null);

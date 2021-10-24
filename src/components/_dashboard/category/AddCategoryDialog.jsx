@@ -6,10 +6,7 @@ import AuthService from "../../../services/auth.service";
 
 
 export default function AddCategoryDialog({onClose, open}) {
-  const category = {
-      id: "",
-      name: ""
-  }
+  const category = {};
 
   const baseUrl = config.apiBaseUrl;
   const currentUser = AuthService.getCurrentUser();

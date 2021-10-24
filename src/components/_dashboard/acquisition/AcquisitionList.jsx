@@ -7,6 +7,8 @@ import {
   Container,
   Typography,
   Button,
+  Box,
+
 } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import axios from "axios";
@@ -17,7 +19,9 @@ import AddAcquisitionDialog from "./AddAcquisitionDialog";
 import EditAcquisitionDialog from "./EditAcquisitionDialog";
 import DeleteAcquisitionDialog from './DeleteAcquisitionDialog';
 import { fDateTime } from '../../../utils/formatTime';
-import moment from 'moment'
+import moment from 'moment';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
+import { format } from 'date-fns';
 
 export default function AcquisitionList() {
   const [state, setState] = useState(null);
@@ -36,6 +40,27 @@ export default function AcquisitionList() {
           }).then((r) => r.data);
         }
   )
+
+  const { 
+    isLoading: triggerlogs_isLoading,
+    error: triggerlogs_error,
+    data: triggerlogs_data,
+    refetch: triggerlogs_refetch
+  } = useQuery(['TriggerlogsAcquisition'], (args) => {
+        return axios.get(`${baseUrl}/acquisition/triggerlog`, {
+            headers: { Authorization: `Bearer ${currentUser.token}` },
+          }).then((r) => r.data);
+        }
+  )
+
+  const updateItems = (data) => {
+    axios.post(`${baseUrl}/acquisition/triggerlog`, data,{
+      headers: { Authorization: `Bearer ${currentUser.token}` },
+    }).then((r) => {
+      triggerlogs_refetch();
+    });
+  }
+
 
   function addHandler() {
     setState({action:"add", acquisitionId: null})
@@ -86,6 +111,18 @@ export default function AcquisitionList() {
           <Typography variant="h4" gutterBottom>
             Sugestões de compras
           </Typography>
+
+          <Box sx={{display: 'flex'}}>
+            <Typography sx={{     
+              marginTop: 1,
+              marginRight: 1
+             }}>Última atualização dos itens: {triggerlogs_data && format(new Date(triggerlogs_data.updateAt), 'dd/MM/yyyy HH:mm')}</Typography>
+            <Button
+              startIcon={<AutorenewIcon />}
+              onClick={() => updateItems()}
+            />
+          </Box>
+
           <Button
             variant="contained"
             startIcon={<AddIcon />}

@@ -7,8 +7,12 @@ import {
   Container,
   Typography,
   Button,
+  Box,
+  TextField,
+  IconButton
 } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
 import axios from "axios";
 import AuthService from "../../../services/auth.service";
 import CrudList from "../../_library/crudlist/CrudList";
@@ -16,6 +20,7 @@ import {useQuery} from 'react-query';
 import AddCategoryDialog from "./AddCategoryDialog";
 import EditCategoryDialog from "./EditCategoryDialog";
 import DeleteCategoryDialog from './DeleteCategoryDialog';
+import { format } from 'date-fns';
 
 export default function CategoriesList() {
   const [state, setState] = useState(null);
@@ -34,6 +39,26 @@ export default function CategoriesList() {
           }).then((r) => r.data);
         }
   )
+
+  const { 
+    isLoading: triggerlogs_isLoading,
+    error: triggerlogs_error,
+    data: triggerlogs_data,
+    refetch: triggerlogs_refetch
+  } = useQuery(['TriggerlogsCategory'], (args) => {
+        return axios.get(`${baseUrl}/category/triggerlog`, {
+            headers: { Authorization: `Bearer ${currentUser.token}` },
+          }).then((r) => r.data);
+        }
+  )
+
+  const updateItems = (data) => {
+    axios.post(`${baseUrl}/category/triggerlog`, data,{
+      headers: { Authorization: `Bearer ${currentUser.token}` },
+    }).then((r) => {
+      triggerlogs_refetch();
+    });
+  }
 
   function addHandler() {
     setState({action:"add", categoryId: null})
@@ -79,6 +104,17 @@ export default function CategoriesList() {
           <Typography variant="h4" gutterBottom>
             Categorias
           </Typography>
+          
+          <Box sx={{display: 'flex'}}>
+            <Typography sx={{     
+              marginTop: 1,
+              marginRight: 1
+             }}>Última atualização dos itens: {triggerlogs_data && format(new Date(triggerlogs_data.updateAt), 'dd/MM/yyyy HH:mm')}</Typography>
+            <Button
+              startIcon={<AutorenewIcon />}
+              onClick={() => updateItems()}
+            />
+          </Box>
           <Button
             variant="contained"
             startIcon={<AddIcon />}
