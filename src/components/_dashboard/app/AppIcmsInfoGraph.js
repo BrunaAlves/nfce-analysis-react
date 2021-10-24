@@ -11,14 +11,14 @@ import AuthService from "../../../services/auth.service";
 import { useQuery } from 'react-query';
 import ChartLoader from './ChartLoader';
 import ChartHeader from './ChartHeader';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // ----------------------------------------------------------------------
 
-export default function AppIcmsInfoGraph() {
+export default function AppIcmsInfoGraph(props) {
   const baseUrl = config.apiBaseUrl;
   const currentUser = AuthService.getCurrentUser();
-  const [filterYear, setFilterYear] = useState((new Date()).getFullYear());
+  const [filterYear, setFilterYear] = useState(props.filterYear);
 
   const { 
     isLoading: list_isLoading,
@@ -31,6 +31,14 @@ export default function AppIcmsInfoGraph() {
           }).then((r) => r.data);
         }
   )
+
+  useEffect(() => {
+    setFilterYear(props.filterYear);
+  }, [props.filterYear])
+
+  useEffect(() => {
+    list_refetch();
+  }, [filterYear])
 
   const chartOptions = merge(BaseOptionChart(), {
     stroke: { width: [0, 2, 3] },
@@ -52,24 +60,9 @@ export default function AppIcmsInfoGraph() {
     }
   });
 
-  const handleChangeYear = (value) => {
-    setFilterYear(value);
-    list_refetch();
-  }
-
-  const renderHeader = () => {
-    return (<ChartHeader 
-      year={filterYear}
-      title="ICMS em" 
-      onChangeYear={handleChangeYear}
-      showMonth={false}
-      showDay={false}
-    />)
-  }
-
   return (
     <Card>
-      <CardHeader title={renderHeader(0)} subheader="" />
+      <CardHeader title="ICMS" subheader="" />
       <Box sx={{ p: 3, pb: 1 }} dir="ltr">
         <ChartLoader 
             loading={list_isLoading}

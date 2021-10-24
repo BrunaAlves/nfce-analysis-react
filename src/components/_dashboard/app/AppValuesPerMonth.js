@@ -13,14 +13,14 @@ import AuthService from "../../../services/auth.service";
 import { useQuery } from 'react-query';
 import ChartHeader from './ChartHeader';
 import ChartLoader from './ChartLoader';
-import {useState} from 'react';
+import { useEffect, useState } from 'react';
 
 // ----------------------------------------------------------------------
 
-export default function AppValuesPerMonth() {
+export default function AppValuesPerMonth(props) {
   const baseUrl = config.apiBaseUrl;
   const currentUser = AuthService.getCurrentUser();
-  const [filterYear, setFilterYear] = useState((new Date()).getFullYear());
+  const [filterYear, setFilterYear] = useState(props.filterYear);
 
   const { 
     isLoading: list_isLoading,
@@ -33,6 +33,14 @@ export default function AppValuesPerMonth() {
           }).then((r) => r.data);
         }
   )
+
+  useEffect(() => {
+    setFilterYear(props.filterYear);
+  }, [props.filterYear])
+
+  useEffect(() => {
+    list_refetch();
+  }, [filterYear])
 
   const chartOptions = merge(BaseOptionChart(), {
     tooltip: {
@@ -52,24 +60,9 @@ export default function AppValuesPerMonth() {
     }
   });
 
-  const handleChangeYear = (value) => {
-    setFilterYear(value);
-    list_refetch();
-  }
-
-  const renderHeader = () => {
-    return (<ChartHeader 
-      year={filterYear}
-      title="Valor gasto por mês em" 
-      onChangeYear={handleChangeYear}
-      showMonth={false}
-      showDay={false}
-    />)
-  }
-
   return (
     <Card>
-      <CardHeader title={renderHeader()} subheader="" />
+      <CardHeader title="Valor gasto por mês " subheader="" />
       <Box sx={{ mx: 3 }} dir="ltr">
         <ChartLoader 
             loading={list_isLoading}

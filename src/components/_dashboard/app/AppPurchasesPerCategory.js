@@ -12,7 +12,7 @@ import config from "../../../config.json";
 import axios from "axios";
 import AuthService from "../../../services/auth.service";
 import { useQuery } from 'react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ChartHeader from './ChartHeader';
 import ChartLoader from './ChartLoader'
 
@@ -39,13 +39,14 @@ const ChartWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function AppPurchasesPerCategory() {
+export default function AppPurchasesPerCategory(props) {
 
   const baseUrl = config.apiBaseUrl;
   const currentUser = AuthService.getCurrentUser();
-  const [filterYear, setFilterYear] = useState((new Date()).getFullYear());
-  const [filterMonth, setFilterMonth] = useState(0);
-  const [filterDay, setFilterDay] = useState(0);
+
+  const [filterYear, setFilterYear] = useState(props.filterYear);
+  const [filterMonth, setFilterMonth] = useState(props.filterMonth ?? 0);
+  const [filterDay, setFilterDay] = useState(props.filterDay ?? 0);
 
   const { 
     isLoading: list_isLoading,
@@ -58,6 +59,16 @@ export default function AppPurchasesPerCategory() {
           }).then((r) => r.data);
         }
   )
+
+  useEffect(() => {
+    setFilterYear(props.filterYear);
+    setFilterMonth(props.filterMonth);
+    setFilterDay(props.filterDay);
+  }, [props.filterYear, props.filterMonth, props.filterDay])
+
+  useEffect(() => {
+    list_refetch();
+  }, [filterYear, filterMonth, filterDay])
 
   const theme = useTheme();
   var chartOptions = merge(BaseOptionChart(), {
@@ -84,38 +95,10 @@ export default function AppPurchasesPerCategory() {
       pie: { donut: { labels: { show: false } } }
     }
   });
-
-  const handleChangeYear = (value) => {
-    setFilterYear(value);
-    list_refetch();
-  }
-
-  const handleChangeMonth = (value) => {
-    setFilterMonth(value)
-    list_refetch();
-  }
-
-  const handleChangeDay = (value) => {
-    setFilterDay(value)
-    list_refetch();
-  }
-
-  const renderHeader = () => {
-    return (<ChartHeader 
-      year={filterYear}
-      month={filterMonth}
-      day={filterDay}
-      inline={false}
-      title="Porcentagem de compras por categoria em" 
-      onChangeYear={handleChangeYear}
-      onChangeMonth={handleChangeMonth}
-      onChangeDay={handleChangeDay}
-    />)
-  }
   
   return (
     <Card>
-      <CardHeader title={renderHeader()} />
+      <CardHeader title="Porcentagem de compras por categoria" />
       <ChartWrapperStyle dir="ltr">
       <ChartLoader 
         loading={list_isLoading}
