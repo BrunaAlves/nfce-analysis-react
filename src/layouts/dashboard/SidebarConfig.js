@@ -1,6 +1,9 @@
 import { Icon } from '@iconify/react';
 import pieChart2Fill from '@iconify/icons-eva/pie-chart-2-fill';
-import fileTextFill from '@iconify/icons-eva/file-text-fill';
+import fileTextOutline from '@iconify/icons-eva/file-text-outline';
+import fileListFill from '@iconify/icons-eva/list-fill';
+import shoppingCartOutline from '@iconify/icons-eva/shopping-cart-outline';
+import inboxOutline from '@iconify/icons-eva/inbox-outline';
 
 // ----------------------------------------------------------------------
 
@@ -15,22 +18,22 @@ const sidebarConfig = [
   {
     title: 'Nfces',
     path: '/dashboard/nfce',
-    icon: getIcon(fileTextFill)
+    icon: getIcon(fileListFill)
   },
   {
     title: 'Itens',
     path: '/dashboard/item',
-    icon: getIcon(fileTextFill)
+    icon: getIcon(fileTextOutline)
   },
   {
     title: 'Categorias',
     path: '/dashboard/categories',
-    icon: getIcon(fileTextFill)
+    icon: getIcon(inboxOutline)
   },
   {
     title: 'Sugestões de compras',
     path: '/dashboard/acquisition',
-    icon: getIcon(fileTextFill)
+    icon: getIcon(shoppingCartOutline)
   }
 ];
 

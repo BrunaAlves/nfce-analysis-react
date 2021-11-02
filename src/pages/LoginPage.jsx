@@ -41,18 +41,14 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function LoginPage() {
   return (
-    <RootStyle title="Login | Minimal-UI">
+    <RootStyle title="Login | NFC-e Análise">
       <AuthLayout>
-        Don’t have an account? &nbsp;
-        <Link underline="none" variant="subtitle2" component={RouterLink} to="/register">
-          Get started
-        </Link>
       </AuthLayout>
 
       <MHidden width="mdDown">
         <SectionStyle>
           <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-            Hi, Welcome Back
+            Oi, Bem-vindo(a) de volta
           </Typography>
           <img src="/static/illustrations/illustration_login.png" alt="login" />
         </SectionStyle>
@@ -62,11 +58,10 @@ export default function LoginPage() {
         <ContentStyle>
           <Stack sx={{ mb: 5 }}>
             <Typography variant="h4" gutterBottom>
-              Sign in to Minimal
+              Entrar em NFC-e Análise
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>Enter your details below.</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>Insira seus dados abaixo.</Typography>
           </Stack>
-          <AuthSocial />
 
           <LoginForm />
 

@@ -41,7 +41,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function RegisterPage() {
   return (
-    <RootStyle title="Register | Minimal-UI">
+    <RootStyle title="Register | NFC-e Análise">
       <AuthLayout>
         Already have an account? &nbsp;
         <Link underline="none" variant="subtitle2" component={RouterLink} to="/login">

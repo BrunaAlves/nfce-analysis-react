@@ -18,7 +18,7 @@ export default function ItemsPage() {
   }
 
   return (
-    <Page title="Items | Minimal-UI">
+    <Page title="Items | NFC-e Análise">
       <Container maxWidth="xl">
         <Box sx={{ pb: 5 }}>
           <Typography variant="h4">

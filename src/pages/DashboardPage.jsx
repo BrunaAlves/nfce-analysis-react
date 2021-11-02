@@ -41,7 +41,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <Page title="Dashboard | Minimal-UI">
+    <Page title="Dashboard | NFC-e Análise">
       <Container maxWidth="xl">
         <Box sx={{ pb: 5 }}>
           <Typography variant="h4">Oi, bem-vindo(a) de volta</Typography>

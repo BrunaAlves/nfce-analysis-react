@@ -21,7 +21,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
 
 export default function NotFoundPage() {
   return (
-    <RootStyle title="404 Page Not Found | Minimal-UI">
+    <RootStyle title="404 Page Not Found | NFC-e Análise">
       <Container>
         <MotionContainer initial="initial" open>
           <Box sx={{ maxWidth: 480, margin: 'auto', textAlign: 'center' }}>

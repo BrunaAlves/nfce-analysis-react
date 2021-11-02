@@ -118,14 +118,7 @@ export default function ItemsList(props) {
         onClick: () => {
              discountHandler(item)
         },
-      },
-      {
-        title: "Mais informações",
-        icon: "trash-2-fill",
-        onClick: () => {
-          //   deleteHandler(category.id)
-        },
-      },
+      }
     ];
   }
 

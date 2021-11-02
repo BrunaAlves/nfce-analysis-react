@@ -68,7 +68,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none" component={RouterLink} to="#">
           <AccountStyle>
-            <Avatar src="/static/mock-images/avatars/avatar_default.jpg" alt="photoURL" />
+            <Avatar src="/static/avatars/smile.png" alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
                 {currentUser.name}

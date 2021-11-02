@@ -27,8 +27,8 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    password: Yup.string().required('Password is required')
+    email: Yup.string().email('O e-mail deve ser um endereço de e-mail válido').required('E-mail é obrigatório'),
+    password: Yup.string().required('Senha é obrigatória')
   });
 
   const formik = useFormik({
@@ -71,7 +71,7 @@ export default function LoginForm() {
             fullWidth
             autoComplete="username"
             type="email"
-            label="Email address"
+            label="Email"
             {...getFieldProps('email')}
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}
@@ -81,7 +81,7 @@ export default function LoginForm() {
             fullWidth
             autoComplete="current-password"
             type={showPassword ? 'text' : 'password'}
-            label="Password"
+            label="Senha"
             {...getFieldProps('password')}
             InputProps={{
               endAdornment: (
@@ -100,11 +100,11 @@ export default function LoginForm() {
         <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
           <FormControlLabel
             control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
-            label="Remember me"
+            label="Lembrar senha"
           />
 
           <Link component={RouterLink} variant="subtitle2" to="#">
-            Forgot password?
+            Esqueceu a senha?
           </Link>
         </Stack>
 
@@ -115,7 +115,7 @@ export default function LoginForm() {
           variant="contained"
           loading={isSubmitting}
         >
-          Login
+          Entrar
         </LoadingButton>
       </Form>
     </FormikProvider>

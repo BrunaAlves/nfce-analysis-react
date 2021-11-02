@@ -4,7 +4,7 @@ import AcquisitionList from '../components/_dashboard/acquisition/AcquisitionLis
 
 export default function AcquisitionPage() {
   return (
-    <Page title="Acquisitions | Minimal-UI">
+    <Page title="Acquisitions | NFC-e Análise">
       <AcquisitionList />
     </Page>
   );

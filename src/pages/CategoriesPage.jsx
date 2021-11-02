@@ -4,7 +4,7 @@ import CategoryList from '../components/_dashboard/category/CategoryList';
 
 export default function CategoriesPage() {
   return (
-    <Page title="Categories | Minimal-UI">
+    <Page title="Categories | NFC-e Análise">
       <CategoryList />
     </Page>
   );

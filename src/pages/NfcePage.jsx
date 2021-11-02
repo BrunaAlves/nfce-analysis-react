@@ -182,7 +182,7 @@ export default function NfcePage() {
   }
 
   return (
-    <Page title="Nfce | Minimal-UI">
+    <Page title="Nfce | NFC-e Análise">
       <Container>
         <Stack
           direction="row"

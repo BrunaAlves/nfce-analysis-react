@@ -70,7 +70,7 @@ export default function AccountPopover() {
           })
         }}
       >
-        <Avatar src="/static/mock-images/avatars/avatar_default.jpg" alt="photoURL" />
+        {/* <Avatar src="/static/avatars/nopic.gif" alt="photoURL" /> */}
       </IconButton>
 
       <MenuPopover
