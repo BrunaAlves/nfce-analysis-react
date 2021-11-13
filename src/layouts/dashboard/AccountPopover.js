@@ -70,7 +70,7 @@ export default function AccountPopover() {
           })
         }}
       >
-        {/* <Avatar src="/static/avatars/nopic.gif" alt="photoURL" /> */}
+        <Avatar src="/static/avatars/smile.png" alt="photoURL"/>
       </IconButton>
 
       <MenuPopover
@@ -113,7 +113,10 @@ export default function AccountPopover() {
         ))}
 
         <Box sx={{ p: 2, pt: 1.5 }}>
-          <Button fullWidth color="inherit" variant="outlined">
+          <Button fullWidth color="inherit" variant="outlined" onClick={() => {
+            AuthService.logout()
+            window.location.reload()
+          }}>
             Logout
           </Button>
         </Box>

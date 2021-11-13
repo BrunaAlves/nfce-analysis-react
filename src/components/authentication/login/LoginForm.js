@@ -103,9 +103,9 @@ export default function LoginForm() {
             label="Lembrar senha"
           />
 
-          <Link component={RouterLink} variant="subtitle2" to="#">
+          {/* <Link component={RouterLink} variant="subtitle2" to="#">
             Esqueceu a senha?
-          </Link>
+          </Link> */}
         </Stack>
 
         <LoadingButton

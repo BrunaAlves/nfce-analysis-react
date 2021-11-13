@@ -4,6 +4,7 @@ import axios from "axios";
 import AuthService from "../../../services/auth.service";
 import {useQuery} from 'react-query';
 import config from "../../../config.json";
+import requester from "../../../utils/requester";
 
 export default function EditAcquisitionDialog({onClose, acquisitionId, open}) {
   const baseUrl = config.apiBaseUrl;
@@ -14,7 +15,7 @@ export default function EditAcquisitionDialog({onClose, acquisitionId, open}) {
     data: acquisition,
   } = useQuery(['acquisition', acquisitionId], (args) => {
       if(acquisitionId)
-        return axios.get(`${baseUrl}/acquisition/${acquisitionId}`, {
+        return requester.get(`${baseUrl}/acquisition/${acquisitionId}`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
             }).then((r) => r.data);
         }

@@ -21,6 +21,7 @@ import AddCategoryDialog from "./AddCategoryDialog";
 import EditCategoryDialog from "./EditCategoryDialog";
 import DeleteCategoryDialog from './DeleteCategoryDialog';
 import { format } from 'date-fns';
+import requester from "../../../utils/requester";
 
 export default function CategoriesList() {
   const [state, setState] = useState(null);
@@ -34,7 +35,7 @@ export default function CategoriesList() {
     data: categories_data ,
     refetch: categories_refetch
   } = useQuery(['Categories'], (args) => {
-        return axios.get(`${baseUrl}/category/all`, {
+        return requester.get(`${baseUrl}/category/all`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
         }
@@ -46,7 +47,7 @@ export default function CategoriesList() {
     data: triggerlogs_data,
     refetch: triggerlogs_refetch
   } = useQuery(['TriggerlogsCategory'], (args) => {
-        return axios.get(`${baseUrl}/category/triggerlog`, {
+        return requester.get(`${baseUrl}/category/triggerlog`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
         }

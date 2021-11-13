@@ -8,7 +8,7 @@ import { fNumber } from '../../../utils/formatNumber';
 import { BaseOptionChart } from '../../charts';
 
 import config from "../../../config.json";
-import axios from "axios";
+import requester from "../../../utils/requester";
 import AuthService from "../../../services/auth.service";
 import { useQuery } from 'react-query';
 import ChartHeader from './ChartHeader';
@@ -28,7 +28,7 @@ export default function AppValuesPerMonth(props) {
     data: list_data ,
     refetch: list_refetch
   } = useQuery(['Bar', filterYear], (args) => {
-        return axios.get(`${baseUrl}/dashboard/valuespermonths?year=${args.queryKey[1]}`, {
+        return requester.get(`${baseUrl}/dashboard/valuespermonths?year=${args.queryKey[1]}`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
         }

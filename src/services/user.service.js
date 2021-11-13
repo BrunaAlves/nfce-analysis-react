@@ -6,19 +6,19 @@ const BASE_URL = config.apiBaseUrl;
 const API_URL = BASE_URL + "/test/";
 
 const getPublicContent = () => {
-  return axios.get(API_URL + "all");
+  return requester.get(API_URL + "all");
 };
 
 const getUserBoard = () => {
-  return axios.get(API_URL + "user", { headers: authHeader() });
+  return requester.get(API_URL + "user", { headers: authHeader() });
 };
 
 const getModeratorBoard = () => {
-  return axios.get(API_URL + "mod", { headers: authHeader() });
+  return requester.get(API_URL + "mod", { headers: authHeader() });
 };
 
 const getAdminBoard = () => {
-  return axios.get(API_URL + "admin", { headers: authHeader() });
+  return requester.get(API_URL + "admin", { headers: authHeader() });
 };
 
 export default {

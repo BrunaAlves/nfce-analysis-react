@@ -6,7 +6,7 @@ import { Card, CardHeader, Box } from '@material-ui/core';
 import { BaseOptionChart } from '../../charts';
 
 import config from "../../../config.json";
-import axios from "axios";
+import requester from '../../../utils/requester';
 import AuthService from "../../../services/auth.service";
 import { useQuery } from 'react-query';
 import ChartLoader from './ChartLoader';
@@ -26,7 +26,7 @@ export default function AppIcmsInfoGraph(props) {
     data: list_data ,
     refetch: list_refetch
   } = useQuery(['Icms', filterYear], (args) => {
-        return axios.get(`${baseUrl}/dashboard/icms?year=${args.queryKey[1]}`, {
+        return requester.get(`${baseUrl}/dashboard/icms?year=${args.queryKey[1]}`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
         }

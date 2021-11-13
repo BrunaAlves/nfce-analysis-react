@@ -22,6 +22,7 @@ import { fDateTime } from '../../../utils/formatTime';
 import moment from 'moment';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import { format } from 'date-fns';
+import requester from "../../../utils/requester";
 
 export default function AcquisitionList() {
   const [state, setState] = useState(null);
@@ -35,7 +36,7 @@ export default function AcquisitionList() {
     data: acquisition_data ,
     refetch: acquisition_refetch
   } = useQuery(['Acquisition'], (args) => {
-        return axios.get(`${baseUrl}/acquisition/all`, {
+        return requester.get(`${baseUrl}/acquisition/all`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
         }
@@ -47,7 +48,7 @@ export default function AcquisitionList() {
     data: triggerlogs_data,
     refetch: triggerlogs_refetch
   } = useQuery(['TriggerlogsAcquisition'], (args) => {
-        return axios.get(`${baseUrl}/acquisition/triggerlog`, {
+        return requester.get(`${baseUrl}/acquisition/triggerlog`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
         }

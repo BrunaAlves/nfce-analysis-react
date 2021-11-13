@@ -9,7 +9,7 @@ import { fNumber } from '../../../utils/formatNumber';
 import { BaseOptionChart } from '../../charts';
 
 import config from "../../../config.json";
-import axios from "axios";
+import requester from '../../../utils/requester';
 import AuthService from "../../../services/auth.service";
 import { useQuery } from 'react-query';
 import { useEffect, useState } from 'react';
@@ -54,7 +54,7 @@ export default function AppPurchasesPerCategory(props) {
     data: list_data ,
     refetch: list_refetch
   } = useQuery(['PieCategory', filterYear, filterMonth, filterDay], (args) => {
-        return axios.get(`${baseUrl}/dashboard/piechart/category?year=${args.queryKey[1]}&month=${args.queryKey[2]}&day=${args.queryKey[3]}`, {
+        return requester.get(`${baseUrl}/dashboard/piechart/category?year=${args.queryKey[1]}&month=${args.queryKey[2]}&day=${args.queryKey[3]}`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
         }

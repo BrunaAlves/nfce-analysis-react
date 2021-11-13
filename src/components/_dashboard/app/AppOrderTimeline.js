@@ -13,7 +13,7 @@ import {
 import { makeStyles } from '@material-ui/styles';
 import { fDateTime } from '../../../utils/formatTime';
 import config from "../../../config.json";
-import axios from "axios";
+import requester from "../../../utils/requester";
 import AuthService from "../../../services/auth.service";
 import { useQuery } from 'react-query';
 
@@ -80,7 +80,7 @@ export default function AppOrderTimeline(props) {
     data: list_data ,
     refetch: list_refetch
   } = useQuery('Timeline', () => {
-        return axios.get(`${baseUrl}/dashboard/timeline?year=2021`, {
+        return requester.get(`${baseUrl}/dashboard/timeline?year=2021`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
         }

@@ -4,6 +4,7 @@ import axios from "axios";
 import AuthService from "../../../services/auth.service";
 import {useQuery} from 'react-query';
 import config from "../../../config.json";
+import requester from "../../../utils/requester";
 
 export default function EditCategoryDialog({onClose, categoryId, open}) {
   const baseUrl = config.apiBaseUrl;
@@ -14,7 +15,7 @@ export default function EditCategoryDialog({onClose, categoryId, open}) {
     data: category,
   } = useQuery(['Category', categoryId], (args) => {
       if(categoryId)
-        return axios.get(`${baseUrl}/category/${categoryId}`, {
+        return requester.get(`${baseUrl}/category/${categoryId}`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
             }).then((r) => r.data);
         }

@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import config from "../../../config.json";
-import axios from "axios";
+import requester from "../../../utils/requester";
 import AuthService from "../../../services/auth.service";
 import { useQuery, useMutation } from 'react-query';
 import ClearIcon from '@material-ui/icons/Clear';
@@ -74,7 +74,7 @@ export default function CategoryDialog({onClose, onConfirm, title, payload, open
     data: availableItems_data ,
     refetch: availableItemsrefetch
   } = useQuery(['AcquisitionItemsList'], (key) => {
-      return axios.get(`${baseUrl}/item/all?uniqueItemCode=true`, {
+      return requester.get(`${baseUrl}/item/all?uniqueItemCode=true`, {
           headers: { Authorization: `Bearer ${currentUser.token}` },
         }).then((r) => r.data);
     }

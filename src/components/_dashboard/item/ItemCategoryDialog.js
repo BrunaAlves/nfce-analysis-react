@@ -15,7 +15,8 @@ import config from "../../../config.json";
 import axios from "axios";
 import AuthService from "../../../services/auth.service";
 import { useQuery, useMutation } from 'react-query';
-import ItemCategoryMatchTable from './ItemCategoryMatchTable'
+import ItemCategoryMatchTable from './ItemCategoryMatchTable';
+import requester from '../../../utils/requester';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -58,7 +59,7 @@ export default function ItemCategoryDialog(props) {
   } = useQuery(['CategoriesList', props.payload], (key) => {
     let data = key.queryKey[1];
       if(data)
-        return axios.get(`${baseUrl}/category/all`, {
+        return requester.get(`${baseUrl}/category/all`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
     }

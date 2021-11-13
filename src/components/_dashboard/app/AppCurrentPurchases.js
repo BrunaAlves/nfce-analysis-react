@@ -9,7 +9,7 @@ import { fNumber } from '../../../utils/formatNumber';
 import { BaseOptionChart } from '../../charts';
 
 import config from "../../../config.json";
-import axios from "axios";
+import requester from '../../../utils/requester';
 import AuthService from "../../../services/auth.service";
 import { useQuery } from 'react-query';
 import ChartHeader from './ChartHeader.jsx';
@@ -53,7 +53,7 @@ export default function AppCurrentPurchases(props) {
     data: list_data ,
     refetch: list_refetch
   } = useQuery(['Pie', filterYear, filterMonth, filterDay], (args) => {
-        return axios.get(`${baseUrl}/dashboard/piechart/perlocation?year=${args.queryKey[1]}&month=${args.queryKey[2]}&day=${args.queryKey[3]}`, {
+        return requester.get(`${baseUrl}/dashboard/piechart/perlocation?year=${args.queryKey[1]}&month=${args.queryKey[2]}&day=${args.queryKey[3]}`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
         }

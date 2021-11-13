@@ -7,7 +7,7 @@ import { Card, Typography } from '@material-ui/core';
 import { fShortenNumber } from '../../../utils/formatNumber';
 
 import config from "../../../config.json";
-import axios from "axios";
+import requester from '../../../utils/requester';
 import AuthService from "../../../services/auth.service";
 import { useQuery } from 'react-query';
 
@@ -51,7 +51,7 @@ export default function AppTotalSpentCurrentYear() {
     data: total_value ,
     refetch: list_refetch
   } = useQuery('CurrentYear', () => {
-        return axios.get(`${baseUrl}/dashboard/totalcurrentyear?year=2021`, {
+        return requester.get(`${baseUrl}/dashboard/totalcurrentyear?year=2021`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => r.data);
         }

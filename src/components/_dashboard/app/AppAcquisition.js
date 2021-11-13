@@ -13,7 +13,7 @@ import { mockImgCover } from '../../../utils/mockImages';
 import Scrollbar from '../../Scrollbar';
 
 import config from "../../../config.json";
-import axios from "axios";
+import requester from "../../../utils/requester";
 import AuthService from "../../../services/auth.service";
 import { useQuery } from 'react-query';
 import { useState } from 'react';
@@ -73,7 +73,7 @@ export default function AppAcquisition() {
     data: acquisition_data ,
     refetch: acquisition_refetch
   } = useQuery(['Acquisition'], (args) => {
-    return axios.get(`${baseUrl}/acquisition/all`, {
+    return requester.get(`${baseUrl}/acquisition/all`, {
             headers: { Authorization: `Bearer ${currentUser.token}` },
           }).then((r) => {
             var late = r.data.filter((x) => new Date(x.nextPurchase) - new Date() < 0)
